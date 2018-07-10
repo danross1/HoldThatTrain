@@ -9,22 +9,30 @@ class RegisterPage extends Component {
     this.state = {
       username: '',
       password: '',
+      confirmPassword: '',
       message: '',
+      phoneNumber: ''
     };
   }
 
   registerUser = (event) => {
     event.preventDefault();
 
-    if (this.state.username === '' || this.state.password === '') {
+    if (this.state.username === '' || this.state.password === '' 
+        || this.state.confirmPassword === '' || this.state.phoneNumber === '') {
       this.setState({
-        message: 'Choose a username and password!',
+        message: 'Well we can\'t help you out if you don\'t tell us your info!',
+      });
+    } else if(this.state.password !== this.state.confirmPassword) {
+      this.setState({
+        message: 'Passwords do not match, please try again!'
       });
     } else {
       const body = {
-        username: this.state.username,
-        password: this.state.password,
-      };
+      username: this.state.username,
+      password: this.state.password,
+      phone: this.state.phoneNumber
+    };
 
       // making the request to the server to post the new user's registration
       axios.post('/api/user/register/', body)
@@ -90,6 +98,28 @@ class RegisterPage extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="confirmPassword">
+              Confirm Password:
+              <input
+                type="password"
+                name="confirmPassword"
+                value={this.state.confirmPassword}
+                onChange={this.handleInputChangeFor('confirmPassword')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="phone">
+              Phone Number:
+              <input
+                type="text"
+                name="phoneNumber"
+                value={this.state.phoneNumber}
+                onChange={this.handleInputChangeFor('phoneNumber')}
               />
             </label>
           </div>
