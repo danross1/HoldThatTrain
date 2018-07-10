@@ -11,8 +11,8 @@ const Nav = () => (
           </Link>
         </li>
         <li>
-          <Link to="/info">
-            Info Page
+          <Link to="/account">
+            My Account
           </Link>
         </li>
       </ul>

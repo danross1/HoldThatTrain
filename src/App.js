@@ -10,7 +10,7 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+import MyAccount from './components/MyAccount/MyAccount';
 import LandingPage from './components/LandingPage/LandingPage';
 
 import './styles/main.css';
@@ -34,8 +34,8 @@ const App = () => (
           component={UserPage}
         />
         <Route
-          path="/info"
-          component={InfoPage}
+          path="/account"
+          component={MyAccount}
         />
         <Route
           path="/landing"

@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-class InfoPage extends Component {
+class MyAccount extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -23,11 +23,13 @@ class InfoPage extends Component {
     let content = null;
 
     if (this.props.user.userName) {
+      console.log(this.props.user);
+      
       content = (
         <div>
-          <p>
-            Info Page
-          </p>
+          <h1>Account Info</h1>
+          <p>Username: {this.props.user.userName}</p>
+          <p>Phone Number: </p>
         </div>
       );
     }
@@ -42,4 +44,4 @@ class InfoPage extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStateToProps)(InfoPage);
+export default connect(mapStateToProps)(MyAccount);
