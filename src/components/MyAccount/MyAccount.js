@@ -30,6 +30,7 @@ class MyAccount extends Component {
           <h1>Account Info</h1>
           <p>Username: {this.props.user.userName}</p>
           <p>Phone Number: </p>
+          <button>Edit</button>
         </div>
       );
     }
