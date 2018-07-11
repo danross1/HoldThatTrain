@@ -22,14 +22,14 @@ class MyAccount extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName) {
+    if (this.props.user.user) {
       console.log(this.props.user);
       
       content = (
         <div>
           <h1>Account Info</h1>
-          <p>Username: {this.props.user.userName}</p>
-          <p>Phone Number: </p>
+          <p>Username: {this.props.user.user.username}</p>
+          <p>Phone Number: {this.props.user.user.phone}</p>
           <button>Edit</button>
         </div>
       );

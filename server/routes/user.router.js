@@ -12,9 +12,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
   const phoneNumber = req.body.phoneNumber;
-  const id = req.body.id
+  const id = req.params.id
   const queryText = 'UPDATE person SET phone=$1 WHERE id=$2';
   pool.query(queryText, [phoneNumber, id])
     .then(response => { res.sendStatus(200); })

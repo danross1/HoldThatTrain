@@ -40,14 +40,16 @@ class MyAlerts extends Component {
 
   render() {
     let content = null;
+    console.log(this.props.user);
+    
 
-    if (this.props.user.userName) {
+    if (this.props.user.user) {
       content = (
         <div>
           <h1
             id="welcome"
           >
-            Welcome, { this.props.user.userName }!
+            Welcome, { this.props.user.user.username }!
           </h1>
 
           <Card>
