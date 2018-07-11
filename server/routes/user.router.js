@@ -18,7 +18,10 @@ router.put('/', (req, res) => {
   const queryText = 'UPDATE person SET phone=$1 WHERE id=$2';
   pool.query(queryText, [phoneNumber, id])
     .then(response => { res.sendStatus(200); })
-    .catch(err => { console.log({err}); })
+    .catch(err => { 
+      console.log({err}); 
+      res.sendStatus(500);
+    })
 })
 
 // Handles POST request with new user data
