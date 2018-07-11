@@ -3,14 +3,21 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /**
- * GET route template
+ * Gets all alerts
  */
 router.get('/', (req, res) => {
-    
+    pool.query('SELECT * FROM alerts')
+        .then(response => {
+            console.log(response.rows);
+            res.send(response.rows);
+        }).catch(err => {
+            console.log({err});
+            res.sendStatus(500);
+        })
 });
 
 /**
- * POST route template
+ * Adds an alert to the alerts table
  */
 router.post('/', (req, res) => {
     const alertName = req.body.alertName;
