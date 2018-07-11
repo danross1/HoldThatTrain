@@ -39,4 +39,15 @@ router.post('/', (req, res) => {
         })
 });
 
+router.delete('/:id', (req, res) => {
+    let alertToDelete = req.params.id;
+    let queryText = `DELETE FROM alerts WHERE id=$1`;
+    pool.query(queryText, [alertToDelete])
+        .then(() => { res.sendStatus(200); })
+        .catch(err => {
+            console.log({err});
+            res.sendStatus(500);
+        })
+})
+
 module.exports = router;
