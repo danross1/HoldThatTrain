@@ -5,11 +5,23 @@ import Button from '@material-ui/core/Button';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 class LandingPage extends Component {
+    handleLoginButton = event => {
+        this.props.history.push('/login');
+    }
+
+    handleRegisterButton = event => {
+        this.props.history.push('/register');
+    }
+    
+
     render() {
         return(
             <div>
-                 <Button variant="contained" >
-                     Log In/Register Here
+                 <Button variant="contained" onClick={() => this.handleLoginButton('/login')}>
+                     Log In
+                 </Button>
+                 <Button variant="contained" onClick={() => this.handleRegisterButton('/register')}>
+                     Register
                  </Button>
                 <br/><br/>
                 OR

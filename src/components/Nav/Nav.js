@@ -11,6 +11,11 @@ const Nav = () => (
           </Link>
         </li>
         <li>
+          <Link to="/create">
+            Create Alert
+          </Link>
+        </li>
+        <li>
           <Link to="/account">
             My Account
           </Link>

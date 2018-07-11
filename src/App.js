@@ -23,7 +23,7 @@ const App = () => (
       <Switch>
         <Redirect exact from="/" to="/home" />
         <Route
-          path="/home"
+          path="/login"
           component={LoginPage}
         />
         <Route
@@ -39,7 +39,7 @@ const App = () => (
           component={MyAccount}
         />
         <Route
-          path="/landing"
+          path="/home"
           component={LandingPage}
         />
         <Route
