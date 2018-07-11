@@ -12,6 +12,7 @@ import RegisterPage from './components/RegisterPage/RegisterPage';
 import MyAlerts from './components/MyAlerts/MyAlerts';
 import MyAccount from './components/MyAccount/MyAccount';
 import LandingPage from './components/LandingPage/LandingPage';
+import CreateAlert from './components/CreateAlert/CreateAlert';
 
 import './styles/main.css';
 
@@ -40,6 +41,10 @@ const App = () => (
         <Route
           path="/landing"
           component={LandingPage}
+        />
+        <Route
+          path="/create"
+          component={CreateAlert}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

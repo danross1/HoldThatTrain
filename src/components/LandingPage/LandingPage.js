@@ -17,16 +17,17 @@ class LandingPage extends Component {
                 <form>
                     <h3>* Quick Alert *</h3>
                     <div>
-                        <label htmlFor="route" />
+                        <label htmlFor="route">
                         Route:
                         <select name="route">
                             <option value="901">Blue Line</option>
                             <option value="902">Green Line</option>
                             <option value="903">Red Line</option>
                         </select>
+                        </label>
                     </div>
                     <div>
-                        <label htmlFor="Direction" />
+                        <label htmlFor="Direction" >
                         Direction:
                         <select name="direction">
                             <option value="1">South</option>
@@ -34,22 +35,26 @@ class LandingPage extends Component {
                             <option value="3">West</option>
                             <option value="4">North</option>
                         </select>
+                        </label>
                     </div>
                     <div>
-                        <label htmlFor="Stop" />
+                        <label htmlFor="Stop">
                         Stop:
                         <select name="stop">
                         </select>
+                        </label>
                     </div>
                     <div>
-                        <label htmlFor="time" />
+                        <label htmlFor="time">
                         Minutes to Notify (change this):
                         <input type="number"/>
+                        </label>
                     </div>
                     <div>
-                        <label htmlFor="phone" />
+                        <label htmlFor="phone">
                         Phone Number:
                         <input type="text"/>
+                        </label>
                     </div>
                     <input type="submit" value="Create"/>
                 </form>
