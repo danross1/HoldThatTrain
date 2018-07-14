@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { USER_ACTIONS } from '../actions/userActions';
+import { ALERT_ACTIONS } from '../actions/alertActions';
 import { callUser } from '../requests/userRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -14,6 +15,10 @@ function* fetchUser() {
     yield put({
       type: USER_ACTIONS.REQUEST_DONE,
     });
+    yield put({
+      type: ALERT_ACTIONS.FETCH_ALERTS,
+      user,
+    })
   } catch (error) {
     yield put({
       type: USER_ACTIONS.REQUEST_DONE,

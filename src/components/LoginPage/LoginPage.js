@@ -25,7 +25,9 @@ class LoginPage extends Component {
 
   
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.userName) {
+    console.log('in componentWillReceiveProps');
+    
+    if (nextProps.user.user) {
       this.props.history.push('/alerts');
     }
   }

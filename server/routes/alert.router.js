@@ -5,8 +5,10 @@ const router = express.Router();
 /**
  * Gets all alerts
  */
-router.get('/', (req, res) => {
-    pool.query('SELECT * FROM alerts')
+router.get('/:id', (req, res) => {
+    console.log(req.params.id);
+    
+    pool.query('SELECT * FROM alerts where user_id=$1', [req.params.id])
         .then(response => {
             console.log(response.rows);
             res.send(response.rows);
