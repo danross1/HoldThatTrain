@@ -7,7 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 
-import Nav from '../../components/Nav/Nav';
+import Nav from '../Nav/Nav';
+import AlertCard from '../AlertCard/AlertCard'
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
@@ -28,7 +29,8 @@ class MyAlerts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      alertList: []
+      alertList: [],
+      edit: false
     }
   }
   componentDidMount() {
@@ -48,7 +50,7 @@ class MyAlerts extends Component {
     // this.props.history.push('home');
   }
 
-  deleteAlert = (alert) => {
+  deleteAlert = alert => {
     console.log('in delete alert w/', alert);
     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
     
@@ -68,7 +70,7 @@ class MyAlerts extends Component {
           </h1>
           <pre>{JSON.stringify(this.props.alerts)}</pre>
 
-          {this.props.alerts.alerts.map((alert, i) => {
+          {/* {this.props.alerts.alerts.map((alert, i) => {
             return (
               <Card key={i}>
                 <CardHeader title={alert.name} />
@@ -79,11 +81,15 @@ class MyAlerts extends Component {
                 </CardContent>
                 <CardActions>
                   <Button onClick={() => this.deleteAlert(alert)} variant="contained" size="small">Delete</Button>
-                  <Button variant="contained" size="small">Edit</Button>
+                  <Button onClick={() => this.editAlert(alert)} variant="contained" size="small">Edit</Button>
                   <Button variant="contained" size="small">Activate</Button>
                 </CardActions>
               </Card>
             )
+          })} */}
+
+          {this.props.alerts.alerts.map((alert, i) => {
+            return <AlertCard alert={alert} key={i}/>
           })}
 
           <button
