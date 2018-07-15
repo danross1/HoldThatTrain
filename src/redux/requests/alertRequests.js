@@ -12,3 +12,16 @@ export function callAlerts(user) {
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
+
+export function addAlert(newAlert) {
+
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    alert: newAlert
+  };
+
+  axios.post('api/alert', config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; });
+}
