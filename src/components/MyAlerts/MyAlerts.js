@@ -48,6 +48,13 @@ class MyAlerts extends Component {
     // this.props.history.push('home');
   }
 
+  deleteAlert = (alert) => {
+    console.log('in delete alert w/', alert);
+    this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
+    
+    this.componentDidMount();
+  }
+
   render() {
     let content = null;
     
@@ -63,19 +70,19 @@ class MyAlerts extends Component {
 
           {this.props.alerts.alerts.map((alert, i) => {
             return (
-              <Card>
-            <CardHeader title={alert.name} />
-            <CardContent>
-              <div>{alert.stop}</div>
-              <div>{alert.direction}</div>
-              <div>{alert.when_to_alert} min before</div>
-            </CardContent>
-            <CardActions>
-              <Button variant="contained" size="small">Delete</Button>
-              <Button variant="contained" size="small">Edit</Button>
-              <Button variant="contained" size="small">Activate</Button>
-            </CardActions>
-          </Card>
+              <Card key={i}>
+                <CardHeader title={alert.name} />
+                <CardContent>
+                  <div>{alert.stop}</div>
+                  <div>{alert.direction}</div>
+                  <div>{alert.when_to_alert} min before</div>
+                </CardContent>
+                <CardActions>
+                  <Button onClick={() => this.deleteAlert(alert)} variant="contained" size="small">Delete</Button>
+                  <Button variant="contained" size="small">Edit</Button>
+                  <Button variant="contained" size="small">Activate</Button>
+                </CardActions>
+              </Card>
             )
           })}
 

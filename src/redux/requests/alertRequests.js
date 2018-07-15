@@ -25,3 +25,16 @@ export function addAlert(newAlert) {
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
+
+export function removeAlert(id) {
+  console.log({id});
+  
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  axios.delete(`api/alert/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; });
+}
