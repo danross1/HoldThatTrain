@@ -38,7 +38,7 @@ class MyAccount extends Component {
 
   editUser = () => {
     console.log('in editUser');
-    
+    this.props.dispatch({type: USER_ACTIONS.EDIT_USER, payload: this.state})
   }
 
   setValues = () => {

@@ -1,7 +1,7 @@
-import { put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { USER_ACTIONS } from '../actions/userActions';
 import { ALERT_ACTIONS } from '../actions/alertActions';
-import { callUser } from '../requests/userRequests';
+import { callUser, edit } from '../requests/userRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchUser() {
@@ -29,13 +29,30 @@ function* fetchUser() {
     });
   }
 }
+
+function* editUser(action) {
+  try {
+    yield edit(action.payload);
+    yield put({
+      type: USER_ACTIONS.REQUEST_DONE,
+    });
+  } catch(error) {
+    yield put({
+      type: USER_ACTIONS.REQUEST_DONE,
+    });
+    yield put({
+      type: USER_ACTIONS.USER_EDIT_FAILED,
+      message: error.data || "FORBIDDEN",
+    });
+  }
+}
 /*
   Starts fetchUser on each dispatched `FETCH_USER` action.
   Allows concurrent fetches of user.
 */
-function* userSaga() {
-  yield takeEvery('FETCH_USER', fetchUser);
-}
+// function* userSaga() {
+//   yield takeEvery('FETCH_USER', fetchUser);
+// }
 
 /*
   Alternatively you may use takeLatest.
@@ -44,8 +61,9 @@ function* userSaga() {
   dispatched while a fetch is already pending, that pending fetch is cancelled
   and only the latest one will be run.
 */
-// function* userSaga() {
-//   yield takeLatest(USER_ACTIONS.FETCH_USER, fetchUser);
-// }
+function* userSaga() {
+  yield takeLatest(USER_ACTIONS.FETCH_USER, fetchUser);
+  yield takeLatest(USER_ACTIONS.EDIT_USER, editUser)
+}
 
 export default userSaga;

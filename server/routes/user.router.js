@@ -12,16 +12,18 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
-router.put('/:id', (req, res) => {
-  const phoneNumber = req.body.phoneNumber;
-  const id = req.params.id
-  const queryText = 'UPDATE person SET phone=$1 WHERE id=$2';
-  pool.query(queryText, [phoneNumber, id])
-    .then(response => { res.sendStatus(200); })
-    .catch(err => { 
-      console.log({err}); 
-      res.sendStatus(500);
-    })
+router.put('/', (req, res) => {
+  console.log('req.body:', req.body);
+  
+  // const phoneNumber = req.body.phoneNumber;
+  // const id = req.params.id
+  // const queryText = 'UPDATE person SET phone=$1 WHERE id=$2';
+  // pool.query(queryText, [phoneNumber, id])
+  //   .then(response => { res.sendStatus(200); })
+  //   .catch(err => { 
+  //     console.log({err}); 
+  //     res.sendStatus(500);
+  //   })
 })
 
 // Handles POST request with new user data
