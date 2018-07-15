@@ -17,7 +17,8 @@ class MyAccount extends Component {
     super(props);
     this.state = {
       username: '',
-      phone: ''
+      phone: '',
+      id: ''
     }
     
   }
@@ -48,10 +49,12 @@ class MyAccount extends Component {
     console.log({defaultUserName});
     const defaultUserPhone = this.props.user.user.phone;
     console.log({defaultUserPhone});
+    const defaultUserID = this.props.user.user.id;
     
     this.setState({
       username: defaultUserName,
-      phone: defaultUserPhone
+      phone: defaultUserPhone,
+      id: defaultUserID
     })
   }
 
