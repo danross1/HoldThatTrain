@@ -17,7 +17,7 @@ export function edit(user) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
-    body: user
+    userToEdit: user
   };
 
   axios.put('api/user', config)
