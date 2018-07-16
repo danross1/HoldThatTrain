@@ -45,19 +45,22 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    const alertName = req.body.alertName;
-    const route = req.body.route;
-    const direction = req.body.direction;
-    const stop = req.body.stop;
-    const when_to_alert = req.body.when_to_alert;
-    const active = req.body.active;
+    const alertName = req.body.alert.alertName;
+    const route = req.body.alert.route;
+    const direction = req.body.alert.direction;
+    const stop = req.body.alert.stop;
+    const when_to_alert = req.body.alert.when_to_alert;
     const alert_id = req.params.id;
 
-    const queryText = `UPDATE alerts SET name=$1, route=$2, direction=$3,
-        stop=$4, when_to_alert=$5, active=$6 WHERE id=$7`;
+    console.log({alertName});
+    console.log({alert_id});
     
-    pool.query(queryText, [alertName, route, direction, stop, when_to_alert,
-        active, alert_id])
+    
+
+    const queryText = `UPDATE alerts SET name=$1, route=$2, direction=$3,
+        stop=$4, when_to_alert=$5 WHERE id=$6`;
+    
+    pool.query(queryText, [alertName, route, direction, stop, when_to_alert, alert_id])
         .then(response => {
             console.log(response);
             res.sendStatus(200);

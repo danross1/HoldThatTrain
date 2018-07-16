@@ -38,3 +38,19 @@ export function removeAlert(id) {
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
+
+export function updateAlert(alertToEdit) {
+  console.log('alert to update:', alertToEdit);
+  
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    alert: alertToEdit
+  };
+
+  axios.put(`api/alert/${alertToEdit.alert_id}`, config)
+    .then(response => response.data)
+    .catch(error => {throw error.response || error; });
+
+
+}

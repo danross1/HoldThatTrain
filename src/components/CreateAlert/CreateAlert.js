@@ -31,7 +31,7 @@ class CreateAlert extends Component {
         this.setState({
           [propertyName]: event.target.value,
         });
-      }
+    }
 
     createAlert = () => {
         const dataToSend = this.packPayload();

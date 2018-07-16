@@ -20,6 +20,13 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 //   }
 // }
 
+export function removeAlert(alert) {
+  console.log('in delete alert w/', alert);
+    this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
+    
+    .componentDidMount();
+}
+
 const mapStateToProps = state => ({
   user: state.user,
   alerts: state.alerts
@@ -30,10 +37,11 @@ class MyAlerts extends Component {
     super(props);
     this.state = {
       alertList: [],
-      edit: false
     }
   }
   componentDidMount() {
+    console.log(this.props);
+    
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
 
@@ -48,6 +56,12 @@ class MyAlerts extends Component {
   logout = () => {
     this.props.dispatch(triggerLogout());
     // this.props.history.push('home');
+  }
+
+  editAlert = alertToEdit => {
+    this.props.dispatch({type: ALERT_ACTIONS.EDIT_ALERT, payload: alertToEdit});
+
+    this.componentDidMount();
   }
 
   deleteAlert = alert => {
@@ -70,26 +84,9 @@ class MyAlerts extends Component {
           </h1>
           <pre>{JSON.stringify(this.props.alerts)}</pre>
 
-          {/* {this.props.alerts.alerts.map((alert, i) => {
-            return (
-              <Card key={i}>
-                <CardHeader title={alert.name} />
-                <CardContent>
-                  <div>{alert.stop}</div>
-                  <div>{alert.direction}</div>
-                  <div>{alert.when_to_alert} min before</div>
-                </CardContent>
-                <CardActions>
-                  <Button onClick={() => this.deleteAlert(alert)} variant="contained" size="small">Delete</Button>
-                  <Button onClick={() => this.editAlert(alert)} variant="contained" size="small">Edit</Button>
-                  <Button variant="contained" size="small">Activate</Button>
-                </CardActions>
-              </Card>
-            )
-          })} */}
-
           {this.props.alerts.alerts.map((alert, i) => {
-            return <AlertCard alert={alert} key={i}/>
+            return <AlertCard alert={alert} key={i} 
+              deleteAlert={this.deleteAlert} editAlert={this.editAlert}/>
           })}
 
           <button
