@@ -16,9 +16,9 @@ class CreateAlert extends Component {
         super();
         this.state = {
             name: '',
-            route: 901,
-            direction: 1,
-            stop: 56334,
+            route: '',
+            direction: '',
+            stop: '',
             when_to_alert: '',
             routeList: []
         };
@@ -49,24 +49,26 @@ class CreateAlert extends Component {
         }
     }
 
-    createAlert = () => {
+    createAlert = event => {
+        event.preventDefault();
         const dataToSend = this.packPayload();
         this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
-        this.props.history.push('/alerts')
     }
 
     packPayload = () => {
+        const userID = this.props.user.id
+        console.log({userID});
+
         let dataToSend = {
-            ...this.state,
-            user_id: this.props.user.user.id
-        }
+            name: this.state.name,
+            direction: this.state.direction,
+            stop: this.state.stop,
+            when_to_alert: this.state.when_to_alert,
+            phone: this.state.phone,
+            user_id: this.props.user.id
+        }        
         return dataToSend;
     }
-
-    // selectRoute = event => {
-    //     console.log(event.target.value);
-        
-    // }
 
     render() {
         let routeList = null;
@@ -84,11 +86,12 @@ class CreateAlert extends Component {
             routeList = (
                 <label htmlFor="Stop">
                     Stop:
-                    <select name="stop">
+                    <select onChange={this.handleInputChangeFor('stop')} name="stop">
+                    <option value=""></option>
                         {this.state.routeList.map((stop, i) => {
                             console.log({stop})
                             return (
-                                <option key={i} value="12">{stop.name}</option>
+                                <option key={i} value={stop.id}>{stop.name}</option>
                             )
                         })}
                     </select>
@@ -99,6 +102,7 @@ class CreateAlert extends Component {
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
                     <option value="2">East</option>
                     <option value="3">West</option>
                 </select>
@@ -106,6 +110,7 @@ class CreateAlert extends Component {
         } else {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
                     <option value="1">South</option>
                     <option value="4">North</option> 
                 </select>
@@ -134,6 +139,7 @@ class CreateAlert extends Component {
                     <label htmlFor="route">
                     Route:
                     <select onChange={this.handleInputChangeFor('route')} name="route">
+                            <option value=""></option>
                             <option value="901">Blue Line</option>
                             <option value="902">Green Line</option>
                             <option value="903">Red Line</option>

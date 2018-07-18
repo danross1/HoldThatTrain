@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/route/:id', (req, res) => {
     const route = req.params.id;
-    const queryText = `SELECT name, stations.id from stations
+    const queryText = `SELECT name, stops.id from stations
         JOIN stops ON stops.station_id=stations.identifier
         WHERE stops.route_id=$1;`
     pool.query(queryText, [route])
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
     
 
     const alertName = req.body.alert.name;
-    const user_id = req.body.alert.user_id || null;
+    const user_id = req.body.alert.userid || null;
     const stop = req.body.alert.stop;
     const when_to_alert = req.body.alert.when_to_alert;
 
