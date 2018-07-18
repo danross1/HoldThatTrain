@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/route/:id', (req, res) => {
     const route = req.params.id;
-    const queryText = `SELECT name, identifier from stations
+    const queryText = `SELECT name, stations.id from stations
         JOIN stops ON stops.station_id=stations.identifier
         WHERE stops.route_id=$1;`
     pool.query(queryText, [route])
@@ -42,17 +42,14 @@ router.post('/', (req, res) => {
     
 
     const alertName = req.body.alert.name;
-    const user_id = req.body.alert.user_id;
-    const route = req.body.alert.route;
-    const direction = req.body.alert.direction;
+    const user_id = req.body.alert.user_id || null;
     const stop = req.body.alert.stop;
     const when_to_alert = req.body.alert.when_to_alert;
 
-    const queryText = `INSERT INTO alerts(name, user_id, route, direction, stop,
-        when_to_alert) VALUES($1, $2, $3, $4, $5, $6)`;
+    const queryText = `INSERT INTO alerts(name, user_id, stop_id, when_to_alert) 
+    VALUES($1, $2, $3, $4)`;
     
-    pool.query(queryText, [alertName, user_id, route, direction, stop, 
-        when_to_alert])
+    pool.query(queryText, [alertName, user_id, stop, when_to_alert])
         .then(() => { res.sendStatus(201)})
         .catch(err => { 
             console.log({err});

@@ -4,16 +4,21 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
+
+const mapStateToProps = state => ({
+    user: state.user,
+  });
 
 class LandingPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            route: 901,
-            direction: 1,
-            stop: 56334,
+            route: '',
+            direction: '',
+            stop: '',
             when_to_alert: '',
+            phone: '',
             routeList: []
         }
     }
@@ -40,9 +45,25 @@ class LandingPage extends Component {
                     });
                 }).catch(err => {
                     console.log({err});
-                    
                 })
         }
+    }
+
+    createAlert = event => {
+        event.preventDefault();
+        const dataToSend = this.packPayload();
+        this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
+    }
+
+    packPayload = () => {
+        let dataToSend = {
+            name: 'quick alert',
+            direction: this.state.direction,
+            stop: this.state.stop,
+            when_to_alert: this.state.when_to_alert,
+            phone: this.state.phone
+        }        
+        return dataToSend;
     }
 
     render() {
@@ -52,14 +73,16 @@ class LandingPage extends Component {
         if(this.state.routeList.length === 0) {
             routeList = (
                     <select name="stop">
+                        <option value=""></option>
                     </select>
             )
         } else {
             routeList = (
                     <select onChange={this.handleInputChangeFor('stop')} name="stop">
+                        <option value=""></option>
                         {this.state.routeList.map((stop, i) => {
                             return (
-                                <option key={i} value={stop.identifier}>{stop.name}</option>
+                                <option key={i} value={stop.id}>{stop.name}</option>
                             )
                         })}
                     </select>
@@ -69,6 +92,7 @@ class LandingPage extends Component {
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
                     <option value="2">East</option>
                     <option value="3">West</option>
                 </select>
@@ -76,6 +100,7 @@ class LandingPage extends Component {
         } else {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
                     <option value="1">South</option>
                     <option value="4">North</option> 
                 </select>
@@ -83,6 +108,7 @@ class LandingPage extends Component {
         }
         return(
             <div>
+                {/* {JSON.stringify(this.state)} */}
                  <Button variant="contained" onClick={() => this.handleLoginButton('/login')}>
                      Log In
                  </Button>
@@ -92,12 +118,13 @@ class LandingPage extends Component {
                 <br/><br/>
                 OR
                 <br/><br/>
-                <form>
+                <form onSubmit={this.createAlert}>
                     <h3>* Quick Alert *</h3>
                     <div>
                         <label htmlFor="route">
                         Route:
                         <select name="route" onChange={this.handleInputChangeFor('route')}>
+                            <option value=""></option>
                             <option value="901">Blue Line</option>
                             <option value="902">Green Line</option>
                             <option value="903">Red Line</option>
@@ -119,13 +146,13 @@ class LandingPage extends Component {
                     <div>
                         <label htmlFor="time">
                         Minutes to Notify (change this):
-                        <input type="number"/>
+                        <input onChange={this.handleInputChangeFor('when_to_alert')} type="number"/>
                         </label>
                     </div>
                     <div>
                         <label htmlFor="phone">
                         Phone Number:
-                        <input type="text"/>
+                        <input onChange={this.handleInputChangeFor('phone')} type="text"/>
                         </label>
                     </div>
                     <input type="submit" value="Create"/>
@@ -136,4 +163,4 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage;
+export default connect(mapStateToProps)(LandingPage);

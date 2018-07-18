@@ -86,8 +86,9 @@ class CreateAlert extends Component {
                     Stop:
                     <select name="stop">
                         {this.state.routeList.map((stop, i) => {
+                            console.log({stop})
                             return (
-                                <option key={i} value={stop.identifier}>{stop.name}</option>
+                                <option key={i} value="12">{stop.name}</option>
                             )
                         })}
                     </select>
