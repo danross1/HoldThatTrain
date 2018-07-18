@@ -83,6 +83,14 @@ class AlertCard extends Component {
         });
     }
 
+    activateAlert = () => {
+        console.log('in activateAlert');
+        console.log(this.props.alert.active);
+
+        this.props.dispatch({type: ALERT_ACTIONS.TOGGLE_ACTIVATION, payload: this.props.alert})
+        
+    }
+
     render() {
         let content = null;
 
@@ -112,7 +120,7 @@ class AlertCard extends Component {
                 <CardActions>
                     <Button onClick={() => this.props.deleteAlert(this.props.alert)} variant="contained" size="small">Delete</Button>
                     <Button onClick={this.toggleEditMode} variant="contained" size="small">Edit</Button>
-                    <Button variant="contained" size="small">Activate</Button>
+                    <Button onClick={this.activateAlert} variant="contained" size="small">Activate</Button>
                 </CardActions>
             </Card>
         )

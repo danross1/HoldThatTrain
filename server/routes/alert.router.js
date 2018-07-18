@@ -86,6 +86,26 @@ router.put('/:id', (req, res) => {
         });
 })
 
+router.put('/activate/:id', (req, res) => {
+    console.log(req.body.alert.id);
+    
+    let active = req.body.alert.active;
+    active = !active;
+    
+    const alert_id = req.body.alert.id;
+    
+    queryText = 'UPDATE alerts SET active=$1 WHERE id=$2';
+
+    pool.query(queryText, [active, alert_id])
+        .then(response => {
+            console.log({response});
+            res.sendStatus(200);
+        }).catch(err => {
+            console.log({err});
+            res.sendStatus(500);
+        });
+})
+
 router.delete('/:id', (req, res) => {
     let alertToDelete = req.params.id;
     let queryText = `DELETE FROM alerts WHERE id=$1`;

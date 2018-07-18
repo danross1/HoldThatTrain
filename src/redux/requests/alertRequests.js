@@ -51,6 +51,17 @@ export function updateAlert(alertToEdit) {
   axios.put(`api/alert/${alertToEdit.alert_id}`, config)
     .then(response => response.data)
     .catch(error => {throw error.response || error; });
+}
 
+export function toggleActive(alertToEdit) {
+  console.log('toggle active:', alertToEdit);
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    alert: alertToEdit
+  };
 
+  axios.put(`api/alert/activate/${alertToEdit.alert_id}`, config)
+    .then(response => response.data)
+    .catch(error => {throw error.response || error; });
 }
