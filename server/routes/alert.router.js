@@ -18,6 +18,22 @@ router.get('/:id', (req, res) => {
         })
 });
 
+router.get('/route/:id', (req, res) => {
+    const route = req.params.id;
+    const queryText = `SELECT name, identifier from stations
+        JOIN stops ON stops.station_id=stations.identifier
+        WHERE stops.route_id=$1;`
+    pool.query(queryText, [route])
+        .then(response => {
+            console.log(response.rows);
+            res.send(response.rows)
+        }).catch(err => {
+            console.log({err});
+            res.sendStatus(500);
+        });
+    
+})
+
 /**
  * Adds an alert to the alerts table
  */

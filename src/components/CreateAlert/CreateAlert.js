@@ -5,6 +5,7 @@ import Nav from '../Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -19,6 +20,7 @@ class CreateAlert extends Component {
             direction: 1,
             stop: 56334,
             when_to_alert: '',
+            routeList: []
         };
     };
 
@@ -31,12 +33,26 @@ class CreateAlert extends Component {
         this.setState({
           [propertyName]: event.target.value,
         });
+        if(propertyName === 'route') {
+            console.log('in route change');
+            axios.get(`/api/alert/route/${event.target.value}`)
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({
+                        ...this.state,
+                        routeList: response.data
+                    });
+                }).catch(err => {
+                    console.log({err});
+                    
+                })
+        }
     }
 
     createAlert = () => {
         const dataToSend = this.packPayload();
         this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
-        
+        this.props.history.push('/alerts')
     }
 
     packPayload = () => {
@@ -47,12 +63,59 @@ class CreateAlert extends Component {
         return dataToSend;
     }
 
+    // selectRoute = event => {
+    //     console.log(event.target.value);
+        
+    // }
+
     render() {
+        let routeList = null;
+        let directionList = null;
+
+        if(this.state.routeList.length === 0) {
+            routeList = (
+                <label htmlFor="Stop">
+                    Stop:
+                    <select name="stop">
+                    </select>
+                </label>
+            )
+        } else {
+            routeList = (
+                <label htmlFor="Stop">
+                    Stop:
+                    <select name="stop">
+                        {this.state.routeList.map((stop, i) => {
+                            return (
+                                <option key={i} value={stop.identifier}>{stop.name}</option>
+                            )
+                        })}
+                    </select>
+                </label>
+            )
+        }
+
+        if(this.state.route === '902') {
+            directionList = (
+                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value="2">East</option>
+                    <option value="3">West</option>
+                </select>
+            )
+        } else {
+            directionList = (
+                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value="1">South</option>
+                    <option value="4">North</option> 
+                </select>
+            )
+        }
+
         return (
             <div>
                 <Nav />
-                {JSON.stringify(this.state)}
-                {JSON.stringify(this.props.user)}
+                { JSON.stringify(this.state) }
+                { JSON.stringify(this.props.user) }
                 <form>
                 <h1>Create Alert</h1>
                 <div>
@@ -79,20 +142,11 @@ class CreateAlert extends Component {
                 <div>
                     <label htmlFor="Direction" >
                     Direction:
-                    <select onChange={this.handleInputChangeFor('direction')} name="direction">
-                        <option value="1">South</option>
-                        <option value="2">East</option>
-                        <option value="3">West</option>
-                        <option value="4">North</option>
-                    </select>
+                    { directionList }
                     </label>
                 </div>
                 <div>
-                    <label htmlFor="Stop">
-                    Stop:
-                    <select name="stop">
-                    </select>
-                    </label>
+                    { routeList }
                 </div>
                 <div>
                     <label htmlFor="time">
