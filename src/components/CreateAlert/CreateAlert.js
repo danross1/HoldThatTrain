@@ -56,7 +56,7 @@ class CreateAlert extends Component {
     }
 
     packPayload = () => {
-        const userID = this.props.user.id
+        const userID = this.props.user.user.id
         console.log({userID});
 
         let dataToSend = {
@@ -65,7 +65,7 @@ class CreateAlert extends Component {
             stop: this.state.stop,
             when_to_alert: this.state.when_to_alert,
             phone: this.state.phone,
-            user_id: this.props.user.id
+            user_id: userID
         }        
         return dataToSend;
     }
@@ -120,7 +120,7 @@ class CreateAlert extends Component {
         return (
             <div>
                 <Nav />
-                { JSON.stringify(this.state) }
+                {/* { JSON.stringify(this.state) } */}
                 { JSON.stringify(this.props.user) }
                 <form>
                 <h1>Create Alert</h1>
