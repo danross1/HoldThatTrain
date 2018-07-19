@@ -86,7 +86,8 @@ class MyAlerts extends Component {
 
           {this.props.alerts.alerts.map((alert, i) => {
             return <AlertCard alert={alert} key={i} 
-              deleteAlert={this.deleteAlert} editAlert={this.editAlert}/>
+              deleteAlert={this.deleteAlert} editAlert={this.editAlert}
+              parentMount={this.componentDidMount}/>
           })}
 
           <button

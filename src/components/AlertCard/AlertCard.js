@@ -17,6 +17,7 @@ class AlertCard extends Component {
         super(props);
         this.state = {
             editMode: false,
+            active: false,
             name: '',
             route: '',
             direction: '',
@@ -28,10 +29,6 @@ class AlertCard extends Component {
     async componentDidMount() {
         await new Promise(resolve => {setTimeout(resolve, 1000)})
         this.setValues();
-    }
-
-    componentDidUpdate() {
-        
     }
     
     editAlert = alert => {
@@ -51,6 +48,8 @@ class AlertCard extends Component {
         console.log({oldDirection});
         const oldStop = this.props.alert.stop_id;
         console.log({oldStop});
+        const oldActive = this.props.alert.active;
+        console.log({oldActive});
         
         
         
@@ -60,7 +59,8 @@ class AlertCard extends Component {
           when_to_alert: oldWhenAlert,
           route: oldRoute,
           direction: oldDirection,
-          stop: oldStop
+          stop: oldStop,
+          active: oldActive
         })
     }
 
@@ -102,12 +102,18 @@ class AlertCard extends Component {
     async activateAlert() {
         console.log('in activateAlert');
         console.log(this.props.alert.active);
-
+        const oldActive = this.props.alert.active;
         this.props.dispatch({type: ALERT_ACTIONS.TOGGLE_ACTIVATION, payload: this.props.alert})
-        await new Promise(resolve => {setTimeout(resolve, 1000)});
-        console.log('waiting a sec');
+        // await new Promise(resolve => {setTimeout(resolve, 3000)});
+        this.setState({
+            ...this.state,
+            active: !oldActive
+        })
+        // this.componentDidMount();
+        // console.log('waiting a sec');
         
-        this.parent.forceUpdate();
+        // console.log(this.props.alert.active);
+        // this.props.parentMount();
     }
 
     render() {
@@ -137,7 +143,7 @@ class AlertCard extends Component {
             editButtonText = 'Save';
         }
 
-        if(this.props.alert.active) {
+        if(this.state.active) {
             activateButtonText = 'Deactivate';
         } else {
             activateButtonText = 'Activate';

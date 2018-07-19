@@ -53,6 +53,18 @@ class LandingPage extends Component {
         event.preventDefault();
         const dataToSend = this.packPayload();
         this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
+        this.clearInputs();
+    }
+
+    clearInputs() {
+        this.setState({
+            route: '',
+            direction: '',
+            stop: '',
+            when_to_alert: '',
+            phone: '',
+            routeList: []
+        })
     }
 
     packPayload = () => {
@@ -79,7 +91,7 @@ class LandingPage extends Component {
             )
         } else {
             routeList = (
-                    <select onChange={this.handleInputChangeFor('stop')} name="stop">
+                    <select onChange={this.handleInputChangeFor('stop')} name="stop" value={this.state.stop}>
                         <option value=""></option>
                         {this.state.routeList.map((stop, i) => {
                             return (
@@ -92,7 +104,7 @@ class LandingPage extends Component {
 
         if(this.state.route === '902') {
             directionList = (
-                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                <select onChange={this.handleInputChangeFor('direction')} name="direction" value={this.state.direction}>
                     <option value=""></option>
                     <option value="2">East</option>
                     <option value="3">West</option>
@@ -100,7 +112,7 @@ class LandingPage extends Component {
             )
         } else {
             directionList = (
-                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                <select onChange={this.handleInputChangeFor('direction')} name="direction" value={this.state.direction}>
                     <option value=""></option>
                     <option value="1">South</option>
                     <option value="4">North</option> 
@@ -124,7 +136,7 @@ class LandingPage extends Component {
                     <div>
                         <label htmlFor="route">
                         Route:
-                        <select name="route" onChange={this.handleInputChangeFor('route')}>
+                        <select name="route" onChange={this.handleInputChangeFor('route')} value={this.state.route}>
                             <option value=""></option>
                             <option value="901">Blue Line</option>
                             <option value="902">Green Line</option>
@@ -147,13 +159,13 @@ class LandingPage extends Component {
                     <div>
                         <label htmlFor="time">
                         Minutes to Notify (change this):
-                        <input onChange={this.handleInputChangeFor('when_to_alert')} type="number"/>
+                        <input onChange={this.handleInputChangeFor('when_to_alert')} type="number" value={this.state.when_to_alert}/>
                         </label>
                     </div>
                     <div>
                         <label htmlFor="phone">
                         Phone Number:
-                        <input onChange={this.handleInputChangeFor('phone')} type="text"/>
+                        <input onChange={this.handleInputChangeFor('phone')} type="text" value={this.state.phone}/>
                         </label>
                     </div>
                     <input type="submit" value="Create"/>
