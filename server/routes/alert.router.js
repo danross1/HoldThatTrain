@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
     
 
     const queryText = `UPDATE alerts SET name=$1, route=$2, direction=$3,
-        stop=$4, when_to_alert=$5 WHERE id=$6`;
+        stop_id=$4, when_to_alert=$5 WHERE id=$6`;
     
     pool.query(queryText, [alertName, route, direction, stop, when_to_alert, alert_id])
         .then(response => {

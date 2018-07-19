@@ -39,7 +39,3 @@ app.listen(PORT, () => {
 });
 
 const checkForAlerts = setInterval(checkAlerts, 30000);
-
-// while(true) {
-//   setInterval(checkAlerts, 30000);
-// }

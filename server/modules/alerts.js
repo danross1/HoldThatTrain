@@ -42,7 +42,7 @@ async function checkAlerts() {
             if(timeDiff <= alert.when_to_alert) {
                 twilio.messages
                     .create({
-                        body: 'go catch that train!',
+                        body: `Your train at ${alert.station_id} is arriving soon!  Go catch that train!`,
                         from: '+12399709412',
                         to: alert.phone
                     })

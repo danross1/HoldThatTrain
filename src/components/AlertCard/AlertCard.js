@@ -18,15 +18,20 @@ class AlertCard extends Component {
         this.state = {
             editMode: false,
             name: '',
-            route: 901,
-            direction: 1,
-            stop: 56334,
+            route: '',
+            direction: '',
+            stop: '',
             when_to_alert: '',
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await new Promise(resolve => {setTimeout(resolve, 1000)})
         this.setValues();
+    }
+
+    componentDidUpdate() {
+        
     }
     
     editAlert = alert => {
@@ -41,12 +46,21 @@ class AlertCard extends Component {
         const oldWhenAlert = this.props.alert.when_to_alert;
         console.log({oldWhenAlert});
         const oldRoute = this.props.alert.route;
+        console.log({oldRoute});
+        const oldDirection = this.props.alert.direction;
+        console.log({oldDirection});
+        const oldStop = this.props.alert.stop_id;
+        console.log({oldStop});
+        
+        
         
         this.setState({
           ...this.state,
           name: oldName,
           when_to_alert: oldWhenAlert,
-          route: oldRoute
+          route: oldRoute,
+          direction: oldDirection,
+          stop: oldStop
         })
     }
 
@@ -68,6 +82,8 @@ class AlertCard extends Component {
             console.log({alertToEdit});
             
             this.props.editAlert(alertToEdit);
+
+            this.componentDidMount();
         } else {
             console.log('not in edit mode');
             this.setState({
@@ -83,16 +99,21 @@ class AlertCard extends Component {
         });
     }
 
-    activateAlert = () => {
+    async activateAlert() {
         console.log('in activateAlert');
         console.log(this.props.alert.active);
 
         this.props.dispatch({type: ALERT_ACTIONS.TOGGLE_ACTIVATION, payload: this.props.alert})
+        await new Promise(resolve => {setTimeout(resolve, 1000)});
+        console.log('waiting a sec');
         
+        this.parent.forceUpdate();
     }
 
     render() {
         let content = null;
+        let editButtonText = null;
+        let activateButtonText = null;
 
         if(!this.state.editMode) {
             content = (
@@ -103,6 +124,7 @@ class AlertCard extends Component {
                     <div>{this.props.alert.when_to_alert} min before</div>
                 </div>
             )
+            editButtonText = 'Edit';
         } else {
             content = (
                 <div>
@@ -112,15 +134,23 @@ class AlertCard extends Component {
                     <input type="text" onChange={this.handleInputChangeFor('when_to_alert')} value={this.state.when_to_alert} />
                 </div>
             )
+            editButtonText = 'Save';
         }
+
+        if(this.props.alert.active) {
+            activateButtonText = 'Deactivate';
+        } else {
+            activateButtonText = 'Activate';
+        };
+
         return (
             <Card>
                 <CardHeader title={this.props.alert.name} />
                 <CardContent>{ content }</CardContent>
                 <CardActions>
                     <Button onClick={() => this.props.deleteAlert(this.props.alert)} variant="contained" size="small">Delete</Button>
-                    <Button onClick={this.toggleEditMode} variant="contained" size="small">Edit</Button>
-                    <Button onClick={this.activateAlert} variant="contained" size="small">Activate</Button>
+                    <Button onClick={this.toggleEditMode} variant="contained" size="small">{editButtonText}</Button>
+                    <Button onClick={() => this.activateAlert()} variant="contained" size="small">{activateButtonText}</Button>
                 </CardActions>
             </Card>
         )
