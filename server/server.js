@@ -38,4 +38,8 @@ app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
 
-// while()
+const checkForAlerts = setInterval(checkAlerts, 30000);
+
+// while(true) {
+//   setInterval(checkAlerts, 30000);
+// }
