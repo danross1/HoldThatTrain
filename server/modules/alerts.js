@@ -3,11 +3,17 @@ const pool = require('../modules/pool');
 const axios = require('axios');
 const moment = require('moment');
 
+// auth for Twilio API
+const accountSid = 'ACf4cbb6b36d96f9e5b31da945e28a2d44';
+const authToken = '8536bdd676390556f119bab8f40d0ffc';
+const twilio = require('twilio')(accountSid, authToken);
+
 let activeAlerts = [];
 async function checkAlerts() {
     // SELECT ALL ACTIVE INPUTS
-    let queryText = `SELECT user_id, name, station_id, route_id, direction, when_to_alert FROM alerts 
+    let queryText = `SELECT user_id, name, station_id, route_id, direction, when_to_alert, phone FROM alerts 
         JOIN stops ON alerts.stop_id = stops.id
+        JOIN person ON alerts.user_id = person.id
         WHERE active=true;`;
     pool.query(queryText)
         .then(response => {
@@ -34,8 +40,15 @@ async function checkAlerts() {
             
             let timeDiff = moment(timeOfArrival.diff(currentTime)).format('m');
             console.log({timeDiff});
-            if(alert.when_to_alert <= timeDiff) {
-                
+            if(timeDiff <= alert.when_to_alert) {
+                twilio.messages
+                    .create({
+                        body: 'a test reminder',
+                        from: '+12399709412',
+                        to: alert.phone
+                    })
+                    .then(message => console.log(message.sid))
+                    .done();
             }
             
         }).catch(err => {
