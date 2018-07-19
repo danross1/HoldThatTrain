@@ -4,8 +4,8 @@ const axios = require('axios');
 const moment = require('moment');
 
 // auth for Twilio API
-const accountSid = 'ACf4cbb6b36d96f9e5b31da945e28a2d44';
-const authToken = '8536bdd676390556f119bab8f40d0ffc';
+const accountSid = '';
+const authToken = '';
 const twilio = require('twilio')(accountSid, authToken);
 
 let activeAlerts = [];
