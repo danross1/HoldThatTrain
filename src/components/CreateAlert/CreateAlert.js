@@ -52,7 +52,8 @@ class CreateAlert extends Component {
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
-        this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
+        this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend});
+        this.props.history.push('/alerts');
     }
 
     packPayload = () => {
@@ -61,10 +62,10 @@ class CreateAlert extends Component {
 
         let dataToSend = {
             name: this.state.name,
+            route: this.state.route,
             direction: this.state.direction,
             stop: this.state.stop,
             when_to_alert: this.state.when_to_alert,
-            phone: this.state.phone,
             user_id: userID
         }        
         return dataToSend;

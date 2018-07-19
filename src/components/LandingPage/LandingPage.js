@@ -58,6 +58,7 @@ class LandingPage extends Component {
     packPayload = () => {
         let dataToSend = {
             name: 'quick alert',
+            route: this.state.route,
             direction: this.state.direction,
             stop: this.state.stop,
             when_to_alert: this.state.when_to_alert,

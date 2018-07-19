@@ -44,15 +44,16 @@ router.post('/', (req, res) => {
     const alertName = req.body.alert.name;
     const user_id = req.body.alert.user_id || null;
     const stop = req.body.alert.stop;
+    const direction = req.body.alert.direction;
     const when_to_alert = req.body.alert.when_to_alert;
 
     console.log({user_id});
     
 
-    const queryText = `INSERT INTO alerts(name, user_id, stop_id, when_to_alert) 
-    VALUES($1, $2, $3, $4)`;
+    const queryText = `INSERT INTO alerts(name, user_id, stop_id, when_to_alert, direction) 
+        VALUES($1, $2, $3, $4, $5)`;
     
-    pool.query(queryText, [alertName, user_id, stop, when_to_alert])
+    pool.query(queryText, [alertName, user_id, stop, when_to_alert, direction])
         .then(() => { res.sendStatus(201)})
         .catch(err => { 
             console.log({err});
