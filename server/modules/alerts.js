@@ -11,7 +11,7 @@ const twilio = require('twilio')(accountSid, authToken);
 let activeAlerts = [];
 async function checkAlerts() {
     // SELECT ALL ACTIVE INPUTS
-    let queryText = `SELECT user_id, name, station_id, route_id, direction, when_to_alert, phone FROM alerts 
+    let queryText = `SELECT alerts.id, name, station_id, route_id, direction, when_to_alert, phone FROM alerts 
         JOIN stops ON alerts.stop_id = stops.id
         JOIN person ON alerts.user_id = person.id
         WHERE active=true;`;
@@ -26,7 +26,6 @@ async function checkAlerts() {
     await new Promise(resolve => {setTimeout(resolve, 1000)})
     
     let apiURL = '';
-    // FOR ALL ACTIVE INPUTS
     for(alert of activeAlerts) {
         apiURL = `http://svc.metrotransit.org/NexTrip/${alert.route_id}/${alert.direction}/${alert.station_id}?format=json`;
         axios.get(apiURL).then(response => {
@@ -43,12 +42,19 @@ async function checkAlerts() {
             if(timeDiff <= alert.when_to_alert) {
                 twilio.messages
                     .create({
-                        body: 'a test reminder',
+                        body: 'go catch that train!',
                         from: '+12399709412',
                         to: alert.phone
                     })
                     .then(message => console.log(message.sid))
                     .done();
+                let queryText = `UPDATE alerts SET active=false WHERE id=$1`;
+                pool.query(queryText, [alert.id])
+                    .then(response => {
+                        console.log({response});
+                    }).catch(err => {
+                        console.log({err});
+                    });
             }
             
         }).catch(err => {
@@ -57,11 +63,6 @@ async function checkAlerts() {
         });
         
     }
-    // GET THE TIME_TO_NEXT_DEPARTURE
-
-    // IF TIME_TO_NEXT_DEPARTURE <= WHEN_TO_ALERT
-
-    // TWILIO MESSAGE ALERT
 }
 
 checkAlerts();
