@@ -9,9 +9,10 @@ import {
 import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+import MyAlerts from './components/MyAlerts/MyAlerts';
+import MyAccount from './components/MyAccount/MyAccount';
 import LandingPage from './components/LandingPage/LandingPage';
+import CreateAlert from './components/CreateAlert/CreateAlert';
 
 import './styles/main.css';
 
@@ -22,7 +23,7 @@ const App = () => (
       <Switch>
         <Redirect exact from="/" to="/home" />
         <Route
-          path="/home"
+          path="/login"
           component={LoginPage}
         />
         <Route
@@ -30,16 +31,20 @@ const App = () => (
           component={RegisterPage}
         />
         <Route
-          path="/user"
-          component={UserPage}
+          path="/alerts"
+          component={MyAlerts}
         />
         <Route
-          path="/info"
-          component={InfoPage}
+          path="/account"
+          component={MyAccount}
         />
         <Route
-          path="/landing"
+          path="/home"
           component={LandingPage}
+        />
+        <Route
+          path="/create"
+          component={CreateAlert}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

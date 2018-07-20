@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { USER_ACTIONS } from '../actions/userActions';
-import { callUser } from '../requests/userRequests';
+import { ALERT_ACTIONS } from '../actions/alertActions';
+import { callUser, edit } from '../requests/userRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchUser() {
@@ -14,12 +15,33 @@ function* fetchUser() {
     yield put({
       type: USER_ACTIONS.REQUEST_DONE,
     });
+    yield put({
+      type: ALERT_ACTIONS.FETCH_ALERTS,
+      user,
+    })
   } catch (error) {
     yield put({
       type: USER_ACTIONS.REQUEST_DONE,
     });
     yield put({
       type: USER_ACTIONS.USER_FETCH_FAILED,
+      message: error.data || "FORBIDDEN",
+    });
+  }
+}
+
+function* editUser(action) {
+  try {
+    yield edit(action.payload);
+    yield put({
+      type: USER_ACTIONS.REQUEST_DONE,
+    });
+  } catch(error) {
+    yield put({
+      type: USER_ACTIONS.REQUEST_DONE,
+    });
+    yield put({
+      type: USER_ACTIONS.USER_EDIT_FAILED,
       message: error.data || "FORBIDDEN",
     });
   }
@@ -41,6 +63,7 @@ function* fetchUser() {
 */
 function* userSaga() {
   yield takeLatest(USER_ACTIONS.FETCH_USER, fetchUser);
+  yield takeLatest(USER_ACTIONS.EDIT_USER, editUser)
 }
 
 export default userSaga;

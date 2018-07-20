@@ -12,6 +12,27 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+router.put('/', (req, res) => {
+  
+  
+  const username = req.body.userToEdit.username
+  console.log({username});
+  
+  const phoneNumber = req.body.userToEdit.phone;
+  console.log({phoneNumber});
+  
+  const id = req.body.userToEdit.id;
+  console.log({id});
+  
+  const queryText = 'UPDATE person SET username=$1, phone=$2 WHERE id=$3';
+  pool.query(queryText, [username, phoneNumber, id])
+    .then(response => { res.sendStatus(200); })
+    .catch(err => { 
+      console.log({err}); 
+      res.sendStatus(500);
+    })
+})
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
@@ -25,7 +46,7 @@ router.post('/register', (req, res, next) => {
   const queryText = 'INSERT INTO person (username, password, phone) VALUES ($1, $2, $3) RETURNING id';
   pool.query(queryText, [username, password, phone])
     .then(() => { res.sendStatus(201); })
-    .catch((err) => { next(err); });
+    .catch(err => { next(err); });
 });
 
 // Handles login form authenticate/login POST
