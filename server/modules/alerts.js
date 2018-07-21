@@ -4,12 +4,12 @@ const axios = require('axios');
 const moment = require('moment');
 
 // auth for Twilio API
-const accountSid = '';
-const authToken = '';
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilio = require('twilio')(accountSid, authToken);
 
 let activeAlerts = [];
-async function checkAlerts() {
+async function checkAlerts() {    
     // SELECT ALL ACTIVE INPUTS
     let queryText = `SELECT alerts.id, name, station_id, route_id, direction, when_to_alert, phone FROM alerts 
         JOIN stops ON alerts.stop_id = stops.id
