@@ -16,8 +16,6 @@ export function addAlert(newAlert) {
 
 // gets all alerts for a specific user
 export function callAlerts(user) {
-    console.log({user});
-    
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -30,8 +28,6 @@ export function callAlerts(user) {
 
 // deletes an alert
 export function removeAlert(id) {
-  console.log({id});
-  
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -44,7 +40,6 @@ export function removeAlert(id) {
 
 // toggles the alert's active bool
 export function toggleActive(alertToEdit) {
-  console.log('toggle active:', alertToEdit);
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -58,8 +53,6 @@ export function toggleActive(alertToEdit) {
 
 // edits an alert
 export function updateAlert(alertToEdit) {
-  console.log('alert to update:', alertToEdit);
-  
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,

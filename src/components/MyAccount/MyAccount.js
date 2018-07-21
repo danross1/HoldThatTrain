@@ -41,19 +41,14 @@ class MyAccount extends Component {
 
   // edit the user in the persons table
   editUser = () => {
-    console.log('in editUser');
     this.props.dispatch({type: USER_ACTIONS.EDIT_USER, payload: this.state})
   }
 
   // take the values from the redux state and copy it to the local state
   // in order to populate the input fields for editing
   setValues = () => {
-    console.log(this.props);
-    
     const defaultUserName = this.props.user.user.username;
-    console.log({defaultUserName});
     const defaultUserPhone = this.props.user.user.phone;
-    console.log({defaultUserPhone});
     const defaultUserID = this.props.user.user.id;
     
     this.setState({
@@ -65,20 +60,15 @@ class MyAccount extends Component {
 
   // change the state value for the property selected
   handleChange = property => event => {
-    console.log('in handleChange w/', property);
     this.setState({
       [property]: event.target.value
     })
-    console.log('this.state:', this.state);
-    
   }
 
   render() {
     let content = null;
 
     if (this.props.user.user) {
-      console.log(this.props.user);
-      
       content = (
         <div>
           <h1>Account Info</h1>

@@ -25,7 +25,6 @@ function selectAllActiveAlerts() {
     pool.query(queryText)
         .then(response => {
             activeAlerts = response.rows;
-            console.log({activeAlerts});
         }).catch(err => {
             console.log({err});
         })
@@ -38,7 +37,6 @@ function selectAllActiveAlerts() {
 function loopThroughActiveAlerts() {
     for(alert of activeAlerts) {
         apiURL = `http://svc.metrotransit.org/NexTrip/${alert.route_id}/${alert.direction}/${alert.station_id}?format=json`;
-        console.log({apiURL});
         
         axios.get(apiURL).then(response => {
             checkTimeDifference(response, alert);
@@ -56,20 +54,13 @@ function loopThroughActiveAlerts() {
 * first notify the user then deactive the alert
 */
 function checkTimeDifference(response, alert) {
-    console.log(response.data[0]);
-        let timeOfArrival = moment(response.data[0].DepartureTime);
-        console.log({timeOfArrival});
-        let currentTime = moment();
-        console.log({currentTime});
-        
-        console.log(alert.when_to_alert);
-        
-        let timeDiff = moment(timeOfArrival.diff(currentTime)).format('m');
-        console.log({timeDiff});
-        if(timeDiff <= alert.when_to_alert) {
-            sendTwilioMessage(alert, timeDiff);
-            deactivateAlert(alert.id);
-        }
+    let timeOfArrival = moment(response.data[0].DepartureTime);
+    let currentTime = moment();
+    let timeDiff = moment(timeOfArrival.diff(currentTime)).format('m');
+    if(timeDiff <= alert.when_to_alert) {
+        sendTwilioMessage(alert, timeDiff);
+        deactivateAlert(alert.id);
+    }
 }
 
 /*
@@ -77,8 +68,6 @@ function checkTimeDifference(response, alert) {
 * and sends the user a message using the Twilio API
 */
 function sendTwilioMessage(alert, timeDiff) {
-    console.log({alert});
-    
     twilio.messages
         .create({
             body: `Your ${alert.route} train is arriving at ${alert.station} in ${timeDiff} minutes!  Go catch that train!`,
@@ -96,7 +85,6 @@ function deactivateAlert(alert_id) {
     let queryText = `UPDATE alerts SET active=false WHERE id=$1`;
         pool.query(queryText, [alert_id])
             .then(response => {
-                console.log({response});
             }).catch(err => {
                 console.log({err});
             });

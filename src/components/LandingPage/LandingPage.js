@@ -39,10 +39,8 @@ class LandingPage extends Component {
           [propertyName]: event.target.value,
         });
         if(propertyName === 'route') {
-            console.log('in route change');
             axios.get(`/api/alert/route/${event.target.value}`)
                 .then(response => {
-                    console.log(response.data);
                     this.setState({
                         ...this.state,
                         routeList: response.data

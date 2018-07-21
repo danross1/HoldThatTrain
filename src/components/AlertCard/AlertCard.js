@@ -40,22 +40,12 @@ class AlertCard extends Component {
 
     // set the local state's values from the alert passed from the MyAlerts component
     setValues = () => {
-        console.log(this.props);
-        
         const oldName = this.props.alert.alert_name;
-        console.log({oldName});
         const oldWhenAlert = this.props.alert.when_to_alert;
-        console.log({oldWhenAlert});
         const oldRoute = this.props.alert.route;
-        console.log({oldRoute});
         const oldDirection = this.props.alert.direction_id;
-        console.log({oldDirection});
         const oldStop = this.props.alert.stop_id;
-        console.log({oldStop});
         const oldActive = this.props.alert.active;
-        console.log({oldActive});
-        
-        
         
         this.setState({
           ...this.state,
@@ -72,7 +62,6 @@ class AlertCard extends Component {
     // if not in edit mode, change to edit mode
     toggleEditMode = () => {
         if(this.state.editMode) {
-            console.log('in edit mode');
             this.setState({
                 ...this.state,
                 editMode: false
@@ -85,13 +74,11 @@ class AlertCard extends Component {
                 when_to_alert: this.state.when_to_alert,
                 alert_id: this.props.alert.id
             }
-            console.log({alertToEdit});
             
             this.props.editAlert(alertToEdit);
 
             this.componentDidMount();
         } else {
-            console.log('not in edit mode');
             this.setState({
                 ...this.state,
                 editMode: true
@@ -106,10 +93,8 @@ class AlertCard extends Component {
           [propertyName]: event.target.value,
         });
         if(propertyName === 'route') {
-            console.log('in route change');
             axios.get(`/api/alert/route/${event.target.value}`)
                 .then(response => {
-                    console.log(response.data);
                     this.setState({
                         ...this.state,
                         routeList: response.data
@@ -122,8 +107,6 @@ class AlertCard extends Component {
 
     // toggles the alert's active bool and disopatches that change off to the database
     activateAlert() {
-        console.log('in activateAlert');
-        console.log(this.props.alert.active);
         const oldActive = this.props.alert.active;
         this.props.dispatch({type: ALERT_ACTIONS.TOGGLE_ACTIVATION, payload: this.props.alert})
         this.setState({
@@ -193,7 +176,6 @@ class AlertCard extends Component {
                         <select onChange={this.handleInputChangeFor('stop')} name="stop">
                             <option value=""></option>
                                 {this.state.routeList.map((stop, i) => {
-                                    console.log({stop})
                                     return (
                                         <option key={i} value={stop.id}>{stop.name}</option>
                                     )

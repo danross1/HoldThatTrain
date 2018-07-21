@@ -14,8 +14,6 @@ export function callUser() {
 
 // edits user info
 export function edit(user) {
-  console.log({user});
-  
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,

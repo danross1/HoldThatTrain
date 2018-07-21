@@ -6,7 +6,6 @@ import { callAlerts, addAlert, removeAlert, updateAlert, toggleActive } from '..
 // get alerts
 // fired on FETCH.ALERTS
 function* fetchAlerts(action) {
-    console.log({action});
     try {
       // start the request
       yield put({ type: ALERT_ACTIONS.REQUEST_START });
@@ -35,7 +34,6 @@ function* fetchAlerts(action) {
   // create an alert
   // fired on CREATE_ALERT
 function* createAlert(action) {
-  console.log({action});
   try{
     // start request
     yield put({ type: ALERT_ACTIONS.REQUEST_START });
@@ -59,7 +57,6 @@ function* createAlert(action) {
 // delete an alert
 // fires on DELETE_ALERT
 function* deleteAlert(action) {
-  console.log({action});
   try{
     // start request
     yield put({ type: ALERT_ACTIONS.REQUEST_START });
@@ -83,7 +80,6 @@ function* deleteAlert(action) {
 // edits an alert
 // fires on EDIT_ALERT
 function* editAlert(action) {
-  console.log({action});
   try{
     // start request
     yield put({ type: ALERT_ACTIONS.REQUEST_START });

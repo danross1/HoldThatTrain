@@ -6,9 +6,7 @@ export function callLogin(payload) {
     username: payload.username,
     password: payload.password,
   });
-  console.log({body});
   
-
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,

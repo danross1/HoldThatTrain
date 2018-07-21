@@ -42,8 +42,6 @@ class MyAlerts extends Component {
   }
   // get user info
   componentDidMount() {
-    console.log(this.props);
-    
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
 
@@ -71,7 +69,6 @@ class MyAlerts extends Component {
 
   // delete the selected alert and then remount the component
   deleteAlert = alert => {
-    console.log('in delete alert w/', alert);
     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
     
     this.componentDidMount();

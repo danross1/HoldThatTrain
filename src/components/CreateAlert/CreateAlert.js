@@ -37,10 +37,8 @@ class CreateAlert extends Component {
           [propertyName]: event.target.value,
         });
         if(propertyName === 'route') {
-            console.log('in route change');
             axios.get(`/api/alert/route/${event.target.value}`)
                 .then(response => {
-                    console.log(response.data);
                     this.setState({
                         ...this.state,
                         routeList: response.data
@@ -65,9 +63,7 @@ class CreateAlert extends Component {
 
     // package the new alert into an object
     packPayload = () => {
-        const userID = this.props.user.user.id
-        console.log({userID});
-
+        const userID = this.props.user.user.id;
         let dataToSend = {
             name: this.state.name,
             route: this.state.route,
@@ -100,7 +96,6 @@ class CreateAlert extends Component {
                     <select onChange={this.handleInputChangeFor('stop')} name="stop">
                     <option value=""></option>
                         {this.state.routeList.map((stop, i) => {
-                            console.log({stop})
                             return (
                                 <option key={i} value={stop.id}>{stop.name}</option>
                             )

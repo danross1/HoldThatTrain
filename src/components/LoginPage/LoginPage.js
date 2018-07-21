@@ -26,8 +26,6 @@ class LoginPage extends Component {
 
   // if user information is received, go to alerts page
   componentWillReceiveProps(nextProps) {
-    console.log('in componentWillReceiveProps');
-    
     if (nextProps.user.user) {
       this.props.history.push('/alerts');
     }
