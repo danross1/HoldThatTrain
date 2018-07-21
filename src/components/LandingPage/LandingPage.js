@@ -52,8 +52,12 @@ class LandingPage extends Component {
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
-        this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
-        this.clearInputs();
+        if(this.state.route && this.state.direction && this.state.stop && this.state.when_to_alert && this.state.phone){
+            this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
+            this.clearInputs();
+        } else {
+            alert('Please fill out all fields!');
+        }
     }
 
     clearInputs() {

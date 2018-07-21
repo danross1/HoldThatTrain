@@ -52,8 +52,12 @@ class CreateAlert extends Component {
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
-        this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend});
-        this.props.history.push('/alerts');
+        if(this.state.route && this.state.direction && this.state.stop && this.state.when_to_alert && this.state.phone){
+            this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
+            this.props.history.push('/alerts');
+        } else {
+            alert('Please fill out all fields!');
+        }
     }
 
     packPayload = () => {
