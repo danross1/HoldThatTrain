@@ -7,8 +7,13 @@ const router = express.Router();
  */
 router.get('/:id', (req, res) => {
     console.log(req.params.id);
-    
-    pool.query('SELECT * FROM alerts where user_id=$1', [req.params.id])
+    let queryText = `SELECT alerts.id, user_id, stop_id, alerts.name AS alert_name, alerts.direction AS direction_id, directions.direction, when_to_alert, active, routes.name AS route_name, stations.name AS station_name, alerts.route  FROM alerts
+        JOIN routes ON alerts.route = routes.id
+        JOIN stops ON alerts.stop_id = stops.id
+        JOIN stations ON stops.station_id = stations.identifier
+        JOIN directions ON alerts.direction = directions.id
+        where user_id=$1`;
+    pool.query(queryText, [req.params.id])
         .then(response => {
             console.log(response.rows);
             res.send(response.rows);

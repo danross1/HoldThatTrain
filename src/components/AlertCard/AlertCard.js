@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -23,11 +24,12 @@ class AlertCard extends Component {
             direction: '',
             stop: '',
             when_to_alert: '',
+            routeList: []
         }
     }
 
     async componentDidMount() {
-        await new Promise(resolve => {setTimeout(resolve, 1000)})
+        await new Promise(resolve => {setTimeout(resolve, 10)})
         this.setValues();
     }
     
@@ -38,13 +40,13 @@ class AlertCard extends Component {
     setValues = () => {
         console.log(this.props);
         
-        const oldName = this.props.alert.name;
+        const oldName = this.props.alert.alert_name;
         console.log({oldName});
         const oldWhenAlert = this.props.alert.when_to_alert;
         console.log({oldWhenAlert});
         const oldRoute = this.props.alert.route;
         console.log({oldRoute});
-        const oldDirection = this.props.alert.direction;
+        const oldDirection = this.props.alert.direction_id;
         console.log({oldDirection});
         const oldStop = this.props.alert.stop_id;
         console.log({oldStop});
@@ -97,6 +99,19 @@ class AlertCard extends Component {
         this.setState({
           [propertyName]: event.target.value,
         });
+        if(propertyName === 'route') {
+            console.log('in route change');
+            axios.get(`/api/alert/route/${event.target.value}`)
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({
+                        ...this.state,
+                        routeList: response.data
+                    });
+                }).catch(err => {
+                    alert('Uh oh! This train\'s gone off the tracks!')
+                })
+        }
     }
 
     async activateAlert() {
@@ -120,12 +135,32 @@ class AlertCard extends Component {
         let content = null;
         let editButtonText = null;
         let activateButtonText = null;
+        let directionList = null;
+
+        if(this.state.route === '902') {
+            directionList = (
+                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
+                    <option value="2">East</option>
+                    <option value="3">West</option>
+                </select>
+            )
+        } else {
+            directionList = (
+                <select onChange={this.handleInputChangeFor('direction')} name="direction">
+                    <option value=""></option>
+                    <option value="1">South</option>
+                    <option value="4">North</option> 
+                </select>
+            )
+        }
+
 
         if(!this.state.editMode) {
             content = (
                 <div>
-                    <div>{this.props.alert.route}</div>
-                    <div>{this.props.alert.stop}</div>
+                    <div>{this.props.alert.route_name}</div>
+                    <div>{this.props.alert.station_name}</div>
                     <div>{this.props.alert.direction}</div>
                     <div>{this.props.alert.when_to_alert} min before</div>
                 </div>
@@ -134,10 +169,39 @@ class AlertCard extends Component {
         } else {
             content = (
                 <div>
-                    <input type="text" onChange={this.handleInputChangeFor('name')} value={this.state.name} />
-                    <input type="text" onChange={this.handleInputChangeFor('route')} value={this.state.route} />
-                    <input type="text" onChange={this.handleInputChangeFor('direction')} value={this.state.direction} />
-                    <input type="text" onChange={this.handleInputChangeFor('when_to_alert')} value={this.state.when_to_alert} />
+                    <label>
+                        Alert Name:
+                        <input type="text" onChange={this.handleInputChangeFor('name')} value={this.state.name} />
+                    </label>
+                    <label>
+                        Route:
+                        <select onChange={this.handleInputChangeFor('route')} name="route">
+                                <option value=""></option>
+                                <option value="901">Blue Line</option>
+                                <option value="902">Green Line</option>
+                                <option value="903">Red Line</option>
+                        </select>
+                    </label>
+                    <label>
+                    Direction:
+                    {directionList}
+                    </label>
+                    <label>
+                        Station:
+                        <select onChange={this.handleInputChangeFor('stop')} name="stop">
+                            <option value=""></option>
+                                {this.state.routeList.map((stop, i) => {
+                                    console.log({stop})
+                                    return (
+                                        <option key={i} value={stop.id}>{stop.name}</option>
+                                    )
+                                })}
+                        </select>
+                    </label>
+                    <label>
+                        When To Alert:
+                        <input type="text" onChange={this.handleInputChangeFor('when_to_alert')} value={this.state.when_to_alert} />
+                    </label>
                 </div>
             )
             editButtonText = 'Save';
@@ -151,7 +215,7 @@ class AlertCard extends Component {
 
         return (
             <Card>
-                <CardHeader title={this.props.alert.name} />
+                <CardHeader title={this.props.alert.alert_name} />
                 <CardContent>{ content }</CardContent>
                 <CardActions>
                     <Button onClick={() => this.props.deleteAlert(this.props.alert)} variant="contained" size="small">Delete</Button>

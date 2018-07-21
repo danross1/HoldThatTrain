@@ -26,7 +26,7 @@ class MyAccount extends Component {
   async componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
 
-    await new Promise(resolve => {setTimeout(resolve, 1000)})
+    await new Promise(resolve => {setTimeout(resolve, 100)})
     
     this.setValues()
   }

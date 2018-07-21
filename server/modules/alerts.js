@@ -42,7 +42,7 @@ function sendTwilioMessage(alert, timeDiff) {
     
     twilio.messages
         .create({
-            body: `Your ${alert.route} train at ${alert.station} is arriving in ${timeDiff} minutes!  Go catch that train!`,
+            body: `Your ${alert.route} train is arriving at ${alert.station} in ${timeDiff} minutes!  Go catch that train!`,
             from: '+12399709412',
             to: alert.phone
         })
@@ -70,6 +70,8 @@ function checkTimeDifference(response, alert) {
 function loopThroughActiveAlerts() {
     for(alert of activeAlerts) {
         apiURL = `http://svc.metrotransit.org/NexTrip/${alert.route_id}/${alert.direction}/${alert.station_id}?format=json`;
+        console.log({apiURL});
+        
         axios.get(apiURL).then(response => {
             checkTimeDifference(response, alert);
         }).catch(err => {
@@ -83,7 +85,7 @@ function loopThroughActiveAlerts() {
 async function checkAlerts() {    
     selectAllActiveAlerts();
 
-    await new Promise(resolve => {setTimeout(resolve, 1000)})
+    await new Promise(resolve => {setTimeout(resolve, 100)})
     
     loopThroughActiveAlerts();
 }
