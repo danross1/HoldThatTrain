@@ -14,20 +14,6 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 
-// const styles = {
-//   title: {
-//     fontSize: 14
-//   }
-// }
-
-
-// export function removeAlert(alert) {
-//   console.log('in delete alert w/', alert);
-//     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
-    
-//     .componentDidMount();
-// }
-
 const mapStateToProps = state => ({
   user: state.user,
   alerts: state.alerts
@@ -49,9 +35,7 @@ class MyAlerts extends Component {
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
-    } //else {
-    //   this.props.dispatch({ type: ALERT_ACTIONS.FETCH_ALERTS });
-    // }
+    }
   }
 
   // dispatch logout and then go home

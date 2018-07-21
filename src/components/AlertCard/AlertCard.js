@@ -34,9 +34,6 @@ class AlertCard extends Component {
         this.setValues();
     }
     
-    // editAlert = alert => {
-    //     console.log('in edit alert w/', alert);
-    // }
 
     // set the local state's values from the alert passed from the MyAlerts component
     setValues = () => {

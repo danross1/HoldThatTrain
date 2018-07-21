@@ -57,6 +57,9 @@ function checkTimeDifference(response, alert) {
     let timeOfArrival = moment(response.data[0].DepartureTime);
     let currentTime = moment();
     let timeDiff = moment(timeOfArrival.diff(currentTime)).format('m');
+    // if this was in production, this would only notify the user when the timeDiff = when_to_alert,
+    // this way the user doesn't get a message, for example, if the train is one minute away when they 
+    // activate the alert but they wish to be alerted ten minutes before the train arrives
     if(timeDiff <= alert.when_to_alert) {
         sendTwilioMessage(alert, timeDiff);
         deactivateAlert(alert.id);
