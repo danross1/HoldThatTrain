@@ -132,8 +132,6 @@ class CreateAlert extends Component {
         return (
             <div>
                 <Nav />
-                {/* { JSON.stringify(this.state) } */}
-                { JSON.stringify(this.props.user) }
                 <form>
                 <h1>Create Alert</h1>
                 <div>

@@ -95,13 +95,7 @@ class MyAccount extends Component {
       <div>
         <Nav />
         <div>
-          <p>this.state:</p>
-          {JSON.stringify(this.state)}<br/>
-
-          <p>this.props.user.user.username:</p>
-
-          {JSON.stringify(this.props.user.user.username)}
-        { content }
+          { content }
         </div>
       </div>
     );

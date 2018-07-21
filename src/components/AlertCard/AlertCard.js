@@ -121,21 +121,15 @@ class AlertCard extends Component {
     }
 
     // toggles the alert's active bool and disopatches that change off to the database
-    async activateAlert() {
+    activateAlert() {
         console.log('in activateAlert');
         console.log(this.props.alert.active);
         const oldActive = this.props.alert.active;
         this.props.dispatch({type: ALERT_ACTIONS.TOGGLE_ACTIVATION, payload: this.props.alert})
-        // await new Promise(resolve => {setTimeout(resolve, 3000)});
         this.setState({
             ...this.state,
             active: !oldActive
         })
-        // this.componentDidMount();
-        // console.log('waiting a sec');
-        
-        // console.log(this.props.alert.active);
-        // this.props.parentMount();
     }
 
     render() {

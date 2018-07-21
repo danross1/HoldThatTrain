@@ -135,7 +135,6 @@ class LandingPage extends Component {
         }
         return(
             <div>
-                {/* {JSON.stringify(this.state)} */}
                  <Button variant="contained" onClick={() => this.handleLoginButton('/login')}>
                      Log In
                  </Button>

@@ -88,7 +88,6 @@ class MyAlerts extends Component {
           >
             Welcome, { this.props.user.user.username }!
           </h1>
-          <pre>{JSON.stringify(this.props.alerts)}</pre>
 
           {this.props.alerts.alerts.map((alert, i) => {
             return <AlertCard alert={alert} key={i} 
