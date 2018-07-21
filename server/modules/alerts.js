@@ -12,9 +12,11 @@ let activeAlerts = [];
 let apiURL = '';
 
 function selectAllActiveAlerts() {
-    let queryText = `SELECT alerts.id, name, station_id, route_id, direction, when_to_alert, phone FROM alerts 
+    let queryText = `SELECT alerts.id, alerts.name AS alert, station_id, route_id, direction, when_to_alert, phone, stations.name AS station, routes.name AS route FROM alerts 
         JOIN stops ON alerts.stop_id = stops.id
         JOIN person ON alerts.user_id = person.id
+        JOIN stations ON stops.station_id = stations.identifier
+        JOIN routes ON alerts.route = routes.id
         WHERE active=true;`;
     pool.query(queryText)
         .then(response => {
@@ -35,10 +37,12 @@ function deactivateAlert(alert_id) {
             });
 }
 
-function sendTwilioMessage(alert) {
+function sendTwilioMessage(alert, timeDiff) {
+    console.log({alert});
+    
     twilio.messages
         .create({
-            body: `Your train at ${alert.station_id} is arriving soon!  Go catch that train!`,
+            body: `Your ${alert.route} train at ${alert.station} is arriving in ${timeDiff} minutes!  Go catch that train!`,
             from: '+12399709412',
             to: alert.phone
         })
@@ -58,7 +62,7 @@ function checkTimeDifference(response, alert) {
         let timeDiff = moment(timeOfArrival.diff(currentTime)).format('m');
         console.log({timeDiff});
         if(timeDiff <= alert.when_to_alert) {
-            sendTwilioMessage(alert);
+            sendTwilioMessage(alert, timeDiff);
             deactivateAlert(alert.id);
         }
 }

@@ -43,8 +43,7 @@ class CreateAlert extends Component {
                         routeList: response.data
                     });
                 }).catch(err => {
-                    console.log({err});
-                    
+                    alert('Uh oh! This train\'s gone off the tracks!')
                 })
         }
     }
