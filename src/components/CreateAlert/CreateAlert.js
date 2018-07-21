@@ -24,11 +24,14 @@ class CreateAlert extends Component {
         };
     };
 
+    // on mount, get user information
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
         
       }
 
+    // change the state value for the property selected
+    // if the route property is changed, send an axios request to populate the list of stations
     handleInputChangeFor = propertyName => event => {
         this.setState({
           [propertyName]: event.target.value,
@@ -48,6 +51,7 @@ class CreateAlert extends Component {
         }
     }
 
+    // dispatch the new alert to the database if all fields are filled out
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
@@ -59,6 +63,7 @@ class CreateAlert extends Component {
         }
     }
 
+    // package the new alert into an object
     packPayload = () => {
         const userID = this.props.user.user.id
         console.log({userID});
@@ -78,6 +83,8 @@ class CreateAlert extends Component {
         let routeList = null;
         let directionList = null;
 
+        // if there is no stops in the route's list, display no stops
+        // else, populate the select with the stop names
         if(this.state.routeList.length === 0) {
             routeList = (
                 <label htmlFor="Stop">
@@ -103,6 +110,7 @@ class CreateAlert extends Component {
             )
         }
 
+        // only populate the direction list with the directions available for the given route
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">

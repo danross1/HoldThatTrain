@@ -30,6 +30,7 @@ function* fetchUser() {
   }
 }
 
+// fires on EDIT_USER
 function* editUser(action) {
   try {
     yield edit(action.payload);

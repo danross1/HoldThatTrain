@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// logs in user
 export function callLogin(payload) {
   const body = ({
     username: payload.username,
@@ -20,6 +21,7 @@ export function callLogin(payload) {
     });
 }
 
+// logs user out
 export function callLogout() {
   const config = {
     headers: { 'Content-Type': 'application/json' },

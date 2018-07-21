@@ -3,7 +3,8 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /**
- * Gets all alerts
+ * Gets all alerts from the alerts table
+ * 
  */
 router.get('/:id', (req, res) => {
     console.log(req.params.id);
@@ -23,6 +24,9 @@ router.get('/:id', (req, res) => {
         })
 });
 
+/**
+ * Gets all alerts for a particular route in order to populate selects
+ */
 router.get('/route/:id', (req, res) => {
     const route = req.params.id;
     const queryText = `SELECT name, stops.id from stations
@@ -67,6 +71,9 @@ router.post('/', (req, res) => {
         });
 });
 
+/**
+ * Updates an alert in the alerts table
+ */
 router.put('/:id', (req, res) => {
     const alertName = req.body.alert.alertName;
     const route = req.body.alert.route;
@@ -93,6 +100,9 @@ router.put('/:id', (req, res) => {
         });
 })
 
+/**
+ * Updates only the active boolean for an alert in the alerts table
+ */
 router.put('/activate/:id', (req, res) => {
     console.log(req.body.alert.id);
     
@@ -113,6 +123,9 @@ router.put('/activate/:id', (req, res) => {
         });
 })
 
+/**
+ * Removes an alert from the alerts table
+ */
 router.delete('/:id', (req, res) => {
     let alertToDelete = req.params.id;
     let queryText = `DELETE FROM alerts WHERE id=$1`;

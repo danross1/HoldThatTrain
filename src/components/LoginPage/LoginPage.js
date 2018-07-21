@@ -19,11 +19,12 @@ class LoginPage extends Component {
     };
   }
 
+  // clear any errors on mount
   componentDidMount() {
     this.props.dispatch(clearError());
   }
 
-  
+  // if user information is received, go to alerts page
   componentWillReceiveProps(nextProps) {
     console.log('in componentWillReceiveProps');
     
@@ -32,6 +33,7 @@ class LoginPage extends Component {
     }
   }
 
+  // trigger login if username and password are filled out
   login = (event) => {
     event.preventDefault();
 
@@ -42,12 +44,14 @@ class LoginPage extends Component {
     }
   }
 
+  // handles changes to the local state
   handleInputChangeFor = propertyName => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
   }
 
+  // if there's an error, display this alert
   renderAlert() {
     if (this.props.login.message !== '') {
       return (

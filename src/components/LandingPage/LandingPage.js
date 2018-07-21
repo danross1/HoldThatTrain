@@ -22,14 +22,18 @@ class LandingPage extends Component {
             routeList: []
         }
     }
+    // go to the login page if the login button is clicked
     handleLoginButton = event => {
         this.props.history.push('/login');
     }
 
+    // go to register page if the register button is clicked
     handleRegisterButton = event => {
         this.props.history.push('/register');
     }
 
+    // change the state value for the property selected
+    // if the route property is changed, send an axios request to populate the list of stations
     handleInputChangeFor = propertyName => event => {
         this.setState({
           [propertyName]: event.target.value,
@@ -49,6 +53,7 @@ class LandingPage extends Component {
         }
     }
 
+    // dispatch the quick alert to the database if all fields are filled out
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
@@ -60,6 +65,7 @@ class LandingPage extends Component {
         }
     }
 
+    // clear the inputs after creation of new quick alert
     clearInputs() {
         this.setState({
             route: '',
@@ -71,6 +77,7 @@ class LandingPage extends Component {
         })
     }
 
+    // package the quick alert into an object
     packPayload = () => {
         let dataToSend = {
             name: 'quick alert',
@@ -87,6 +94,8 @@ class LandingPage extends Component {
         let routeList = null;
         let directionList = null;
 
+        // if there is no stops in the route's list, display no stops
+        // else, populate the select with the stop names
         if(this.state.routeList.length === 0) {
             routeList = (
                     <select name="stop">
@@ -106,6 +115,7 @@ class LandingPage extends Component {
             )
         }
 
+        // only populate the direction list with the directions available for the given route
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction" value={this.state.direction}>

@@ -23,6 +23,7 @@ class MyAccount extends Component {
     
   }
 
+  // get user info, wait for that info to come back, and then set the local state's values
   async componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
 
@@ -31,17 +32,21 @@ class MyAccount extends Component {
     this.setValues()
   }
 
+  // if the user logs out, send them to the home page
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
   }
 
+  // edit the user in the persons table
   editUser = () => {
     console.log('in editUser');
     this.props.dispatch({type: USER_ACTIONS.EDIT_USER, payload: this.state})
   }
 
+  // take the values from the redux state and copy it to the local state
+  // in order to populate the input fields for editing
   setValues = () => {
     console.log(this.props);
     
@@ -58,6 +63,7 @@ class MyAccount extends Component {
     })
   }
 
+  // change the state value for the property selected
   handleChange = property => event => {
     console.log('in handleChange w/', property);
     this.setState({

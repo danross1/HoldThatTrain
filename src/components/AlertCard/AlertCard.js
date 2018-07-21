@@ -28,15 +28,17 @@ class AlertCard extends Component {
         }
     }
 
+    // Wait a moment for the reduxState to load, then set the state's values
     async componentDidMount() {
         await new Promise(resolve => {setTimeout(resolve, 10)})
         this.setValues();
     }
     
-    editAlert = alert => {
-        console.log('in edit alert w/', alert);
-    }
+    // editAlert = alert => {
+    //     console.log('in edit alert w/', alert);
+    // }
 
+    // set the local state's values from the alert passed from the MyAlerts component
     setValues = () => {
         console.log(this.props);
         
@@ -66,6 +68,8 @@ class AlertCard extends Component {
         })
     }
 
+    // if in edit mode, package and dispatch the alert for editing, then re-mount the card
+    // if not in edit mode, change to edit mode
     toggleEditMode = () => {
         if(this.state.editMode) {
             console.log('in edit mode');
@@ -95,6 +99,8 @@ class AlertCard extends Component {
         }
     }
 
+    // change the state value for the property selected
+    // if the route property is changed, send an axios request to populate the list of stations
     handleInputChangeFor = propertyName => event => {
         this.setState({
           [propertyName]: event.target.value,
@@ -114,6 +120,7 @@ class AlertCard extends Component {
         }
     }
 
+    // toggles the alert's active bool and disopatches that change off to the database
     async activateAlert() {
         console.log('in activateAlert');
         console.log(this.props.alert.active);
@@ -137,6 +144,7 @@ class AlertCard extends Component {
         let activateButtonText = null;
         let directionList = null;
 
+        // only populate the direction list with the directions available for the given route
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
@@ -155,7 +163,7 @@ class AlertCard extends Component {
             )
         }
 
-
+        // either display the information or a form to edit that information
         if(!this.state.editMode) {
             content = (
                 <div>
@@ -207,6 +215,7 @@ class AlertCard extends Component {
             editButtonText = 'Save';
         }
 
+        // switch the button text based on whether the alert is currently active
         if(this.state.active) {
             activateButtonText = 'Deactivate';
         } else {

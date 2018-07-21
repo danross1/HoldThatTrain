@@ -20,12 +20,13 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 //   }
 // }
 
-export function removeAlert(alert) {
-  console.log('in delete alert w/', alert);
-    this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
+
+// export function removeAlert(alert) {
+//   console.log('in delete alert w/', alert);
+//     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
     
-    .componentDidMount();
-}
+//     .componentDidMount();
+// }
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -39,12 +40,14 @@ class MyAlerts extends Component {
       alertList: [],
     }
   }
+  // get user info
   componentDidMount() {
     console.log(this.props);
     
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
 
+  // if logged out, go home
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
@@ -53,17 +56,20 @@ class MyAlerts extends Component {
     // }
   }
 
+  // dispatch logout and then go home
   logout = () => {
     this.props.dispatch(triggerLogout());
     this.props.history.push('home');
   }
 
+  // edit the given alert and then remount the component
   editAlert = alertToEdit => {
     this.props.dispatch({type: ALERT_ACTIONS.EDIT_ALERT, payload: alertToEdit});
 
     this.componentDidMount();
   }
 
+  // delete the selected alert and then remount the component
   deleteAlert = alert => {
     console.log('in delete alert w/', alert);
     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})

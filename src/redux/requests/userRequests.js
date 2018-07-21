@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// gets user info
 export function callUser() {
   const config = {
     headers: { 'Content-Type': 'application/json' },
@@ -11,6 +12,7 @@ export function callUser() {
     .catch((error) => { throw error.response || error; });
 }
 
+// edits user info
 export function edit(user) {
   console.log({user});
   
