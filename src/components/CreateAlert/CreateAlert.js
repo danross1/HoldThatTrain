@@ -127,7 +127,7 @@ class CreateAlert extends Component {
         return (
             <div>
                 <Nav />
-                <form>
+                <form className="content">
                 <h1>Create Alert</h1>
                 <div>
                     <label htmlFor="name">

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createPortal } from 'react-dom';
 
 import Nav from '../../components/Nav/Nav';
-import EditUser from '../EditUser/EditUser';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
@@ -70,21 +69,21 @@ class MyAccount extends Component {
 
     if (this.props.user.user) {
       content = (
-        <div>
+        <form>
           <h1>Account Info</h1>
           <p>Username:</p>
           <input type="text" onChange={this.handleChange('username')} value={this.state.username} />
           <p>Phone Number:</p>
           <input type="text" onChange={this.handleChange('phone')} value={this.state.phone} />
           <button onClick={this.editUser}>Edit</button>
-        </div>
+        </form>
       );
     }
 
     return (
       <div>
         <Nav />
-        <div>
+        <div className="content">
           { content }
         </div>
       </div>

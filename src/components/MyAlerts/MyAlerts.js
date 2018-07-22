@@ -70,11 +70,13 @@ class MyAlerts extends Component {
             Welcome, { this.props.user.user.username }!
           </h1>
 
-          {this.props.alerts.alerts.map((alert, i) => {
-            return <AlertCard alert={alert} key={i} 
-              deleteAlert={this.deleteAlert} editAlert={this.editAlert}
-              parentMount={this.componentDidMount}/>
-          })}
+          <div className="alertlist">
+            {this.props.alerts.alerts.map((alert, i) => {
+              return <AlertCard alert={alert} key={i}
+                deleteAlert={this.deleteAlert} editAlert={this.editAlert}
+                parentMount={this.componentDidMount}/>
+            })}
+          </div>
 
           <button
             onClick={this.logout}

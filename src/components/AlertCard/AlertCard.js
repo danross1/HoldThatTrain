@@ -196,7 +196,8 @@ class AlertCard extends Component {
         };
 
         return (
-            <Card>
+            <Card className="card"
+                style={{ backgroundColor: '#236467' }}>
                 <CardHeader title={this.props.alert.alert_name} />
                 <CardContent>{ content }</CardContent>
                 <CardActions>

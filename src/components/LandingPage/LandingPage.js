@@ -132,15 +132,15 @@ class LandingPage extends Component {
             )
         }
         return(
-            <div>
-                 <Button variant="contained" onClick={() => this.handleLoginButton('/login')}>
+            <div className="content">
+                 <Button className="button" variant="contained" onClick={() => this.handleLoginButton('/login')}>
                      Log In
                  </Button>
-                 <Button variant="contained" onClick={() => this.handleRegisterButton('/register')}>
+                 <Button className="button" variant="contained" onClick={() => this.handleRegisterButton('/register')}>
                      Register
                  </Button>
                 <br/><br/>
-                OR
+                
                 <br/><br/>
                 <form onSubmit={this.createAlert}>
                     <h3>* Quick Alert *</h3>

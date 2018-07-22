@@ -6,7 +6,7 @@ const Nav = () => (
     <div>
       <ul>
         <li>
-          <Link to="/alerts">
+          <Link to="/alerts" >
             My Alerts
           </Link>
         </li>
