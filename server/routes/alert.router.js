@@ -3,14 +3,18 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /**
- * Gets all alerts
+ * Gets all alerts from the alerts table
+ * 
  */
 router.get('/:id', (req, res) => {
-    console.log(req.params.id);
-    
-    pool.query('SELECT * FROM alerts where user_id=$1', [req.params.id])
+    let queryText = `SELECT alerts.id, user_id, stop_id, alerts.name AS alert_name, alerts.direction AS direction_id, directions.direction, when_to_alert, active, routes.name AS route_name, stations.name AS station_name, alerts.route  FROM alerts
+        JOIN routes ON alerts.route = routes.id
+        JOIN stops ON alerts.stop_id = stops.id
+        JOIN stations ON stops.station_id = stations.identifier
+        JOIN directions ON alerts.direction = directions.id
+        where user_id=$1`;
+    pool.query(queryText, [req.params.id])
         .then(response => {
-            console.log(response.rows);
             res.send(response.rows);
         }).catch(err => {
             console.log({err});
@@ -18,6 +22,9 @@ router.get('/:id', (req, res) => {
         })
 });
 
+/**
+ * Gets all alerts for a particular route in order to populate selects
+ */
 router.get('/route/:id', (req, res) => {
     const route = req.params.id;
     const queryText = `SELECT name, stops.id from stations
@@ -25,7 +32,6 @@ router.get('/route/:id', (req, res) => {
         WHERE stops.route_id=$1;`
     pool.query(queryText, [route])
         .then(response => {
-            console.log(response.rows);
             res.send(response.rows)
         }).catch(err => {
             console.log({err});
@@ -38,18 +44,12 @@ router.get('/route/:id', (req, res) => {
  * Adds an alert to the alerts table
  */
 router.post('/', (req, res) => {
-    console.log(req.body);
-    
-
     const alertName = req.body.alert.name;
     const user_id = req.body.alert.user_id || null;
     const stop = req.body.alert.stop;
     const route = req.body.alert.route;
     const direction = req.body.alert.direction;
     const when_to_alert = req.body.alert.when_to_alert;
-
-    console.log({user_id});
-    
 
     const queryText = `INSERT INTO alerts(name, user_id, stop_id, when_to_alert, direction, route) 
         VALUES($1, $2, $3, $4, $5, $6)`;
@@ -62,25 +62,21 @@ router.post('/', (req, res) => {
         });
 });
 
+/**
+ * Updates an alert in the alerts table
+ */
 router.put('/:id', (req, res) => {
     const alertName = req.body.alert.alertName;
     const route = req.body.alert.route;
     const direction = req.body.alert.direction;
     const stop = req.body.alert.stop;
     const when_to_alert = req.body.alert.when_to_alert;
-    const alert_id = req.params.id;
-
-    console.log({alertName});
-    console.log({alert_id});
-    
-    
-
+    const alert_id = req.params.id;    
     const queryText = `UPDATE alerts SET name=$1, route=$2, direction=$3,
         stop_id=$4, when_to_alert=$5 WHERE id=$6`;
     
     pool.query(queryText, [alertName, route, direction, stop, when_to_alert, alert_id])
         .then(response => {
-            console.log(response);
             res.sendStatus(200);
         }).catch(err => {
             console.log({err});
@@ -88,19 +84,18 @@ router.put('/:id', (req, res) => {
         });
 })
 
+/**
+ * Updates only the active boolean for an alert in the alerts table
+ */
 router.put('/activate/:id', (req, res) => {
-    console.log(req.body.alert.id);
-    
     let active = req.body.alert.active;
     active = !active;
     
     const alert_id = req.body.alert.id;
-    
     queryText = 'UPDATE alerts SET active=$1 WHERE id=$2';
 
     pool.query(queryText, [active, alert_id])
         .then(response => {
-            console.log({response});
             res.sendStatus(200);
         }).catch(err => {
             console.log({err});
@@ -108,6 +103,9 @@ router.put('/activate/:id', (req, res) => {
         });
 })
 
+/**
+ * Removes an alert from the alerts table
+ */
 router.delete('/:id', (req, res) => {
     let alertToDelete = req.params.id;
     let queryText = `DELETE FROM alerts WHERE id=$1`;

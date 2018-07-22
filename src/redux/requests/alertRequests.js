@@ -1,18 +1,6 @@
 import axios from 'axios';
 
-export function callAlerts(user) {
-    console.log({user});
-    
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true,
-  };
-
-  return axios.get(`api/alert/${user.id}`, config)
-    .then(response => response.data)
-    .catch((error) => { throw error.response || error; });
-}
-
+// adds an alert to the alerts table
 export function addAlert(newAlert) {
 
   const config = {
@@ -26,9 +14,20 @@ export function addAlert(newAlert) {
     .catch((error) => { throw error.response || error; });
 }
 
+// gets all alerts for a specific user
+export function callAlerts(user) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`api/alert/${user.id}`, config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; });
+}
+
+// deletes an alert
 export function removeAlert(id) {
-  console.log({id});
-  
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -39,9 +38,21 @@ export function removeAlert(id) {
     .catch((error) => { throw error.response || error; });
 }
 
+// toggles the alert's active bool
+export function toggleActive(alertToEdit) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    alert: alertToEdit
+  };
+
+  axios.put(`api/alert/activate/${alertToEdit.alert_id}`, config)
+    .then(response => response.data)
+    .catch(error => {throw error.response || error; });
+}
+
+// edits an alert
 export function updateAlert(alertToEdit) {
-  console.log('alert to update:', alertToEdit);
-  
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -53,15 +64,3 @@ export function updateAlert(alertToEdit) {
     .catch(error => {throw error.response || error; });
 }
 
-export function toggleActive(alertToEdit) {
-  console.log('toggle active:', alertToEdit);
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true,
-    alert: alertToEdit
-  };
-
-  axios.put(`api/alert/activate/${alertToEdit.alert_id}`, config)
-    .then(response => response.data)
-    .catch(error => {throw error.response || error; });
-}

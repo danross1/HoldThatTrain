@@ -24,35 +24,36 @@ class CreateAlert extends Component {
         };
     };
 
+    // on mount, get user information
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
         
       }
 
+    // change the state value for the property selected
+    // if the route property is changed, send an axios request to populate the list of stations
     handleInputChangeFor = propertyName => event => {
         this.setState({
           [propertyName]: event.target.value,
         });
         if(propertyName === 'route') {
-            console.log('in route change');
             axios.get(`/api/alert/route/${event.target.value}`)
                 .then(response => {
-                    console.log(response.data);
                     this.setState({
                         ...this.state,
                         routeList: response.data
                     });
                 }).catch(err => {
-                    console.log({err});
-                    
+                    alert('Uh oh! This train\'s gone off the tracks!')
                 })
         }
     }
 
+    // dispatch the new alert to the database if all fields are filled out
     createAlert = event => {
         event.preventDefault();
         const dataToSend = this.packPayload();
-        if(this.state.route && this.state.direction && this.state.stop && this.state.when_to_alert && this.state.phone){
+        if(this.state.route && this.state.direction && this.state.stop && this.state.when_to_alert){
             this.props.dispatch({type: ALERT_ACTIONS.CREATE_ALERT, payload: dataToSend})
             this.props.history.push('/alerts');
         } else {
@@ -60,10 +61,9 @@ class CreateAlert extends Component {
         }
     }
 
+    // package the new alert into an object
     packPayload = () => {
-        const userID = this.props.user.user.id
-        console.log({userID});
-
+        const userID = this.props.user.user.id;
         let dataToSend = {
             name: this.state.name,
             route: this.state.route,
@@ -79,6 +79,8 @@ class CreateAlert extends Component {
         let routeList = null;
         let directionList = null;
 
+        // if there is no stops in the route's list, display no stops
+        // else, populate the select with the stop names
         if(this.state.routeList.length === 0) {
             routeList = (
                 <label htmlFor="Stop">
@@ -94,7 +96,6 @@ class CreateAlert extends Component {
                     <select onChange={this.handleInputChangeFor('stop')} name="stop">
                     <option value=""></option>
                         {this.state.routeList.map((stop, i) => {
-                            console.log({stop})
                             return (
                                 <option key={i} value={stop.id}>{stop.name}</option>
                             )
@@ -104,6 +105,7 @@ class CreateAlert extends Component {
             )
         }
 
+        // only populate the direction list with the directions available for the given route
         if(this.state.route === '902') {
             directionList = (
                 <select onChange={this.handleInputChangeFor('direction')} name="direction">
@@ -125,9 +127,7 @@ class CreateAlert extends Component {
         return (
             <div>
                 <Nav />
-                {/* { JSON.stringify(this.state) } */}
-                { JSON.stringify(this.props.user) }
-                <form>
+                <form className="content">
                 <h1>Create Alert</h1>
                 <div>
                     <label htmlFor="name">

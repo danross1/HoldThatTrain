@@ -10,6 +10,14 @@ import reducer from './redux/reducers';
 import App from './App';
 import rootSaga from './redux/sagas';
 
+import WebFont from 'webfontloader';
+
+WebFont.load({
+  google: {
+    families: ['Delius:400', 'cursive', 'Rubik']
+  }
+});
+
 // Initializing to an empty object, but here is where you could
 // preload your redux state with initial values (from localStorage, perhaps)
 const preloadedState = {};

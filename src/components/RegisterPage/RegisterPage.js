@@ -15,9 +15,9 @@ class RegisterPage extends Component {
     };
   }
 
+  // register the user, or, if there's an error, display the correct error message
   registerUser = (event) => {
     event.preventDefault();
-
     if (this.state.username === '' || this.state.password === '' 
         || this.state.confirmPassword === '' || this.state.phoneNumber === '') {
       this.setState({
@@ -53,6 +53,7 @@ class RegisterPage extends Component {
     }
   } // end registerUser
 
+  // change the state value for the property selected
   handleInputChangeFor = propertyName => (event) => {
     this.setState({
       [propertyName]: event.target.value,
@@ -75,7 +76,7 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="content">
         {this.renderAlert()}
         <form onSubmit={this.registerUser}>
           <h1>Register User</h1>

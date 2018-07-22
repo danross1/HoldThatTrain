@@ -38,4 +38,5 @@ app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
 
+// Runs checkAlerts() every thirty seconds
 const checkForAlerts = setInterval(checkAlerts, 30000);

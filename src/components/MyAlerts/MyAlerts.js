@@ -14,19 +14,6 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 
-// const styles = {
-//   title: {
-//     fontSize: 14
-//   }
-// }
-
-export function removeAlert(alert) {
-  console.log('in delete alert w/', alert);
-    this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
-    
-    .componentDidMount();
-}
-
 const mapStateToProps = state => ({
   user: state.user,
   alerts: state.alerts
@@ -39,33 +26,33 @@ class MyAlerts extends Component {
       alertList: [],
     }
   }
+  // get user info
   componentDidMount() {
-    console.log(this.props);
-    
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
 
+  // if logged out, go home
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
-    } //else {
-    //   this.props.dispatch({ type: ALERT_ACTIONS.FETCH_ALERTS });
-    // }
+    }
   }
 
+  // dispatch logout and then go home
   logout = () => {
     this.props.dispatch(triggerLogout());
     this.props.history.push('home');
   }
 
+  // edit the given alert and then remount the component
   editAlert = alertToEdit => {
     this.props.dispatch({type: ALERT_ACTIONS.EDIT_ALERT, payload: alertToEdit});
 
     this.componentDidMount();
   }
 
+  // delete the selected alert and then remount the component
   deleteAlert = alert => {
-    console.log('in delete alert w/', alert);
     this.props.dispatch({type: ALERT_ACTIONS.DELETE_ALERT, payload: alert.id})
     
     this.componentDidMount();
@@ -82,13 +69,14 @@ class MyAlerts extends Component {
           >
             Welcome, { this.props.user.user.username }!
           </h1>
-          <pre>{JSON.stringify(this.props.alerts)}</pre>
 
-          {this.props.alerts.alerts.map((alert, i) => {
-            return <AlertCard alert={alert} key={i} 
-              deleteAlert={this.deleteAlert} editAlert={this.editAlert}
-              parentMount={this.componentDidMount}/>
-          })}
+          <div className="alertlist">
+            {this.props.alerts.alerts.map((alert, i) => {
+              return <AlertCard alert={alert} key={i}
+                deleteAlert={this.deleteAlert} editAlert={this.editAlert}
+                parentMount={this.componentDidMount}/>
+            })}
+          </div>
 
           <button
             onClick={this.logout}

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createPortal } from 'react-dom';
 
 import Nav from '../../components/Nav/Nav';
-import EditUser from '../EditUser/EditUser';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
@@ -23,32 +22,32 @@ class MyAccount extends Component {
     
   }
 
+  // get user info, wait for that info to come back, and then set the local state's values
   async componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
 
-    await new Promise(resolve => {setTimeout(resolve, 1000)})
+    await new Promise(resolve => {setTimeout(resolve, 100)})
     
     this.setValues()
   }
 
+  // if the user logs out, send them to the home page
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
   }
 
+  // edit the user in the persons table
   editUser = () => {
-    console.log('in editUser');
     this.props.dispatch({type: USER_ACTIONS.EDIT_USER, payload: this.state})
   }
 
+  // take the values from the redux state and copy it to the local state
+  // in order to populate the input fields for editing
   setValues = () => {
-    console.log(this.props);
-    
     const defaultUserName = this.props.user.user.username;
-    console.log({defaultUserName});
     const defaultUserPhone = this.props.user.user.phone;
-    console.log({defaultUserPhone});
     const defaultUserID = this.props.user.user.id;
     
     this.setState({
@@ -58,44 +57,34 @@ class MyAccount extends Component {
     })
   }
 
+  // change the state value for the property selected
   handleChange = property => event => {
-    console.log('in handleChange w/', property);
     this.setState({
       [property]: event.target.value
     })
-    console.log('this.state:', this.state);
-    
   }
 
   render() {
     let content = null;
 
     if (this.props.user.user) {
-      console.log(this.props.user);
-      
       content = (
-        <div>
+        <form>
           <h1>Account Info</h1>
           <p>Username:</p>
           <input type="text" onChange={this.handleChange('username')} value={this.state.username} />
           <p>Phone Number:</p>
           <input type="text" onChange={this.handleChange('phone')} value={this.state.phone} />
           <button onClick={this.editUser}>Edit</button>
-        </div>
+        </form>
       );
     }
 
     return (
       <div>
         <Nav />
-        <div>
-          <p>this.state:</p>
-          {JSON.stringify(this.state)}<br/>
-
-          <p>this.props.user.user.username:</p>
-
-          {JSON.stringify(this.props.user.user.username)}
-        { content }
+        <div className="content">
+          { content }
         </div>
       </div>
     );
