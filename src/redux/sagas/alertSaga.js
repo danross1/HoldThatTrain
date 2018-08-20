@@ -1,6 +1,5 @@
-import { put, takeLatest, actionChannel } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { ALERT_ACTIONS } from '../actions/alertActions';
-import { USER_ACTIONS } from '../actions/userActions';
 import { callAlerts, addAlert, removeAlert, updateAlert, toggleActive } from '../requests/alertRequests';
 
 // get alerts

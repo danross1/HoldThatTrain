@@ -5,6 +5,7 @@ const alerts = (state = [], action) => {
     switch (action.type) {
         case ALERT_ACTIONS.SET_ALERTS:
             state = action.alerts;
+            break;
         default:
             break;
     }

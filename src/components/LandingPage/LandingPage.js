@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 
-import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { ALERT_ACTIONS } from '../../redux/actions/alertActions';
 
 const mapStateToProps = state => ({

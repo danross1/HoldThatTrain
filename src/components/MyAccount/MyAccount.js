@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createPortal } from 'react-dom';
 
 import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -8,8 +7,6 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 const mapStateToProps = state => ({
   user: state.user,
 });
-
-let doItOnce = false;
 
 class MyAccount extends Component {
   constructor(props) {
