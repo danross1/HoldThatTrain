@@ -169,7 +169,7 @@ class LandingPage extends Component {
                     </div>
                     <div>
                         <label htmlFor="time">
-                        Minutes to Notify (change this):
+                        When To Alert (in minutes):
                         <input onChange={this.handleInputChangeFor('when_to_alert')} type="number" value={this.state.when_to_alert}/>
                         </label>
                     </div>
